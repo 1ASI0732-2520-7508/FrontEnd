@@ -1,0 +1,58 @@
+import { Supplier } from '../types/supplier';
+
+export const suppliersData: Supplier[] = [
+  {
+    id: '1',
+    supplierName: 'TechCorp',
+    companyName: 'TechCorp Solutions Inc.',
+    ruc: '20123456789',
+    address: '123 Technology Ave, Tech City, TC 12345',
+    createdAt: new Date('2024-01-15'),
+    lastUpdated: new Date('2024-12-15'),
+  },
+  {
+    id: '2',
+    supplierName: 'PaperPlus',
+    companyName: 'PaperPlus Office Supplies Ltd.',
+    ruc: '20987654321',
+    address: '456 Office Street, Business District, BD 67890',
+    createdAt: new Date('2024-02-20'),
+    lastUpdated: new Date('2024-12-10'),
+  },
+  {
+    id: '3',
+    supplierName: 'ToolMaster',
+    companyName: 'ToolMaster Industrial Equipment',
+    ruc: '20456789123',
+    address: '789 Industrial Blvd, Manufacturing Zone, MZ 11111',
+    createdAt: new Date('2024-03-10'),
+    lastUpdated: new Date('2024-12-05'),
+  },
+  {
+    id: '4',
+    supplierName: 'MetalWorks',
+    companyName: 'MetalWorks Materials Co.',
+    ruc: '20321654987',
+    address: '321 Steel Road, Metal District, MD 22222',
+    createdAt: new Date('2024-04-05'),
+    lastUpdated: new Date('2024-11-30'),
+  },
+  {
+    id: '5',
+    supplierName: 'ErgoDesk',
+    companyName: 'ErgoDesk Furniture Solutions',
+    ruc: '20654321789',
+    address: '654 Comfort Lane, Furniture Park, FP 33333',
+    createdAt: new Date('2024-05-12'),
+    lastUpdated: new Date('2024-12-01'),
+  },
+  {
+    id: '6',
+    supplierName: 'SafetyFirst',
+    companyName: 'SafetyFirst Equipment Corp.',
+    ruc: '20789123456',
+    address: '987 Safety Street, Protection Plaza, PP 44444',
+    createdAt: new Date('2024-06-18'),
+    lastUpdated: new Date('2024-11-25'),
+  },
+];
