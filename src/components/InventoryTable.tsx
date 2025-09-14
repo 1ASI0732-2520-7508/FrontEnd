@@ -1,7 +1,7 @@
 import React from 'react';
 import { Edit2, Trash2, Package } from 'lucide-react';
 import { InventoryItem } from '../types/inventory';
-import { getStockStatus, getStockStatusColor, formatCurrency, formatDate } from '../utils/stockUtils';
+import { getStockStatus, getStockStatusColor, formatCurrency } from '../utils/stockUtils';
 
 interface InventoryTableProps {
   items: InventoryItem[];
@@ -84,9 +84,6 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-500">
                     {item.supplier}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    {formatDate(item.lastUpdated)}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center space-x-2">

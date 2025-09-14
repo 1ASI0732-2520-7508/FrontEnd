@@ -4,8 +4,6 @@ export interface Supplier {
   companyName: string;
   ruc: string;
   address: string;
-  createdAt: Date;
-  lastUpdated: Date;
 }
 
 export interface SupplierFormData {

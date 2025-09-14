@@ -17,15 +17,15 @@ const menuItems = [
   { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
-const getRoleBasedMenuItems = (role: string) => {
-  switch (role) {
-    case 'admin':
+const getRoleBasedMenuItems = (group: string) => {
+  switch (group) {
+    case 'Admin':
       return menuItems; // Admin sees all tabs
-    case 'manager':
+    case 'Manager':
       return menuItems.filter(item => 
-        ['inventory', 'suppliers', 'settings'].includes(item.id)
+        ['inventory', 'suppliers','alerts'].includes(item.id)
       );
-    case 'employee':
+    case 'Employee':
       return menuItems.filter(item => 
         ['dashboard', 'analytics'].includes(item.id)
       );
@@ -35,7 +35,7 @@ const getRoleBasedMenuItems = (role: string) => {
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }) => {
-  const visibleMenuItems = getRoleBasedMenuItems(user.role);
+  const visibleMenuItems = getRoleBasedMenuItems(user.group);
 
   return (
     <div className="w-64 bg-white border-r border-gray-200 h-full">
@@ -48,7 +48,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }
         </div>
         <div className="mt-2">
           <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">
-            {user.role} Portal
+            {user.group} Portal
           </span>
         </div>
       </div>

@@ -27,8 +27,6 @@ export const useFilters = (items: InventoryItem[]) => {
           return b.quantity - a.quantity;
         case 'price':
           return b.price - a.price;
-        case 'lastUpdated':
-          return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime();
         default:
           return 0;
       }

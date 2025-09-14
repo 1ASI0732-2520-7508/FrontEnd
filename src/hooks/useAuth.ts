@@ -8,12 +8,10 @@ export const useAuth = () => {
     isLoading: true,
   });
 
-  // API URLs (Assuming JWT authentication API)
-  const API_URL = 'http://localhost:8000'; 
-  const LOGIN_URL = `${API_URL}/api/token/`;
+  const API_URL = 'http://localhost:8000';
+  const LOGIN_URL = `${API_URL}/api/auth/token/`;
 
   useEffect(() => {
-    // Check for stored authentication on app load
     const storedUser = localStorage.getItem('inventoryUser');
     if (storedUser) {
       try {
@@ -23,13 +21,9 @@ export const useAuth = () => {
           isAuthenticated: true,
           isLoading: false,
         });
-      } catch (error) {
+      } catch {
         localStorage.removeItem('inventoryUser');
-        setAuthState({
-          user: null,
-          isAuthenticated: false,
-          isLoading: false,
-        });
+        setAuthState({ user: null, isAuthenticated: false, isLoading: false });
       }
     } else {
       setAuthState(prev => ({ ...prev, isLoading: false }));
@@ -39,40 +33,46 @@ export const useAuth = () => {
   const login = async (credentials: LoginCredentials): Promise<{ success: boolean; error?: string }> => {
     setAuthState(prev => ({ ...prev, isLoading: true }));
 
+    console.log(credentials);
     try {
-      // API call to authenticate user
       const response = await fetch(LOGIN_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: credentials.email,
+          username: credentials.username,
           password: credentials.password,
         }),
       });
 
       const data = await response.json();
 
+      console.log(data);
+
       if (response.ok) {
-        // Store user info and JWT token in localStorage
-        const user = { email: credentials.email }; // In a real app, fetch user data from the API here
+        // Extract user info from JWT claims
+        const payload = JSON.parse(atob(data.access.split('.')[1]));
+        console.log(payload);
+        // decode JWT
+        const user: User = {
+          id: payload.user_id,
+          username: payload.username,
+          email: payload.email,
+          group: payload.groups[0] as 'Admin' | 'Manager' | 'Employee',
+        };
+
+        console.log(user, 'payload');
+
         localStorage.setItem('inventoryUser', JSON.stringify(user));
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
 
-        setAuthState({
-          user,
-          isAuthenticated: true,
-          isLoading: false,
-        });
-
+        setAuthState({ user, isAuthenticated: true, isLoading: false });
         return { success: true };
       } else {
         setAuthState(prev => ({ ...prev, isLoading: false }));
-        return { success: false, error: data.detail || 'An error occurred' };
+        return { success: false, error: data.detail || 'Invalid credentials' };
       }
-    } catch (error) {
+    } catch {
       setAuthState(prev => ({ ...prev, isLoading: false }));
       return { success: false, error: 'Network error' };
     }
@@ -82,16 +82,8 @@ export const useAuth = () => {
     localStorage.removeItem('inventoryUser');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    setAuthState({
-      user: null,
-      isAuthenticated: false,
-      isLoading: false,
-    });
+    setAuthState({ user: null, isAuthenticated: false, isLoading: false });
   };
 
-  return {
-    ...authState,
-    login,
-    logout,
-  };
+  return { ...authState, login, logout };
 };

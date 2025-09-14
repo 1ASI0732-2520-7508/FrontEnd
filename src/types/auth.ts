@@ -1,14 +1,17 @@
 export interface User {
-  id: string;
+  id?: string; // optional if not returned
   email: string;
-  name: string;
-  role: 'admin' | 'manager' | 'employee';
+  username: string;
+  company_id?: number | null;
+  company_name?: string | null;
+  group: string;
 }
 
 export interface LoginCredentials {
-  email: string;
+  username: string;
   password: string;
 }
+
 
 export interface AuthState {
   user: User | null;

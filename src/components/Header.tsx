@@ -4,8 +4,8 @@ import { User as UserType } from '../types/auth';
 
 interface HeaderProps {
   onAddItem: () => void;
-  searchTerm: string;
-  onSearchChange: (value: string) => void;
+  searchTerm?: string;
+  onSearchChange?: (value: string) => void;
   user: UserType;
   onLogout: () => void;
 }
@@ -17,14 +17,15 @@ export const Header: React.FC<HeaderProps> = ({ onAddItem, searchTerm, onSearchC
         <div className="flex items-center space-x-6">
           <h2 className="text-2xl font-bold text-gray-900">Inventory Management</h2>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
+            {searchTerm !== undefined && onSearchChange && (
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />) &&
+                (<input
               type="text"
               placeholder="Search inventory..."
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
               className="pl-10 pr-4 py-2 w-80 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-            />
+            />)}
           </div>
         </div>
         
@@ -39,8 +40,8 @@ export const Header: React.FC<HeaderProps> = ({ onAddItem, searchTerm, onSearchC
               <User className="w-4 h-4 text-white" />
             </div>
             <div className="text-sm">
-              <p className="font-medium text-gray-900">{user.name}</p>
-              <p className="text-gray-500 capitalize">{user.role}</p>
+              <p className="font-medium text-gray-900">{user.username}</p>
+              <p className="text-gray-500 capitalize">{user.group}</p>
             </div>
           </div>
           

@@ -7,7 +7,6 @@ export interface InventoryItem {
   price: number;
   supplier: string;
   description: string;
-  lastUpdated: Date;
 }
 
 export interface Category {

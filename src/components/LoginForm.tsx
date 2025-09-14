@@ -9,7 +9,7 @@ interface LoginFormProps {
 
 export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
   const [credentials, setCredentials] = useState<LoginCredentials>({
-    email: '',
+    username: '',
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +19,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
     e.preventDefault();
     setError('');
 
-    if (!credentials.email || !credentials.password) {
+    if (!credentials.username || !credentials.password) {
       setError('Please fill in all fields');
       return;
     }
@@ -65,10 +65,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
-                  type="email"
+                  type="text"
                   required
-                  value={credentials.email}
-                  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+                  value={credentials.username}
+                  onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter your email"
                 />
@@ -111,22 +111,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
               )}
             </button>
           </form>
-        </div>
-
-        {/* Demo Credentials */}
-        <div className="mt-6 bg-gray-50 rounded-xl p-4 border border-gray-200">
-          <h3 className="text-sm font-medium text-gray-700 mb-3">Demo Credentials:</h3>
-          <div className="space-y-2">
-            {demoCredentials.map((demo, index) => (
-              <div key={index} className="flex items-center justify-between text-xs">
-                <span className="text-gray-600">{demo.email}</span>
-                <span className="text-blue-600 font-medium">{demo.role}</span>
-              </div>
-            ))}
-            <div className="pt-2 border-t border-gray-200">
-              <p className="text-xs text-gray-500">Password for all accounts: <span className="font-mono bg-gray-100 px-1 rounded">password123</span></p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

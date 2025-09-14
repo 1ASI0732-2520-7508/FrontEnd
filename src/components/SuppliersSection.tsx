@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, Building2, MapPin, FileText, Calendar } from 'lucide-react';
 import { Supplier } from '../types/supplier';
-import { formatDate } from '../utils/stockUtils';
 
 interface SuppliersSectionProps {
   suppliers: Supplier[];
@@ -102,14 +101,12 @@ export const SuppliersSection: React.FC<SuppliersSectionProps> = ({
               
               <div className="flex items-center space-x-2 text-sm text-gray-500">
                 <Calendar className="w-4 h-4" />
-                <span>Updated: {formatDate(supplier.lastUpdated)}</span>
               </div>
             </div>
 
             <div className="mt-4 pt-4 border-t border-gray-100">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-500">Member since</span>
-                <span className="font-medium text-gray-900">{formatDate(supplier.createdAt)}</span>
               </div>
             </div>
           </div>
