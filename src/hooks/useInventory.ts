@@ -29,7 +29,7 @@ export const useInventory = () => {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const API_URL = 'http://localhost:8000/api'; // change to your API base
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // Axios instance with auth header
   const api = axios.create({
@@ -40,7 +40,7 @@ export const useInventory = () => {
   // Fetch suppliers
   const fetchSuppliers = async () => {
     try {
-      const res = await api.get('/suppliers/');
+      const res = await api.get('/api/suppliers/');
       setSuppliers(res.data);
     } catch (err) {
       console.error('Error fetching suppliers', err);
@@ -50,7 +50,7 @@ export const useInventory = () => {
   // Fetch categories
   const fetchCategories = async () => {
     try {
-      const res = await api.get('/categories/');
+      const res = await api.get('/api/categories/');
       setCategories(res.data);
     } catch (err) {
       console.error('Error fetching categories', err);
@@ -60,7 +60,7 @@ export const useInventory = () => {
   // Fetch items
   const fetchItems = async () => {
     try {
-      const res = await api.get('/items/');
+      const res = await api.get('/api/items/');
       const mappedItems: InventoryItem[] = res.data.map((i: ApiItem) => ({
         id: i.id.toString(),
         name: i.item_name,
@@ -92,7 +92,7 @@ export const useInventory = () => {
       const categoryObj = categories.find(c => c.category_name === newItem.category);
       const supplierObj = suppliers.find(s => s.supplier_name === newItem.supplier);
 
-      const res = await api.post('/items/', {
+      const res = await api.post('/api/items/', {
         item_name: newItem.name,
         description: newItem.description,
         current_quantity: newItem.quantity,
@@ -115,7 +115,7 @@ export const useInventory = () => {
       const categoryObj = categories.find(c => c.category_name === updatedData.category);
       const supplierObj = suppliers.find(s => s.supplier_name === updatedData.supplier);
 
-      await api.put(`/items/${id}/`, {
+      await api.put(`/api/items/${id}/`, {
         item_name: updatedData.name,
         description: updatedData.description,
         current_quantity: updatedData.quantity,
@@ -133,7 +133,7 @@ export const useInventory = () => {
 
   const deleteItem = async (id: string) => {
     try {
-      await api.delete(`/items/${id}/`);
+      await api.delete(`/api/items/${id}/`);
       setItems(prev => prev.filter(item => item.id !== id));
     } catch (err) {
       console.error('Error deleting item', err);

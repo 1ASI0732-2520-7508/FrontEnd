@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Supplier, SupplierFormData } from '../types/supplier';
 
-const API_URL = 'http://localhost:8000/api/suppliers/';
+
+const BASE_URL = import.meta.env.VITE_API_URL;
+const API_URL = `${BASE_URL}/api/suppliers/`;
 
 export const useSuppliers = () => {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);

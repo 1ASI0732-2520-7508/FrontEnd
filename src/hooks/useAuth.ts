@@ -8,7 +8,7 @@ export const useAuth = () => {
     isLoading: true,
   });
 
-  const API_URL = 'http://localhost:8000';
+  const API_URL = import.meta.env.VITE_API_URL;
   const LOGIN_URL = `${API_URL}/api/auth/token/`;
 
   useEffect(() => {

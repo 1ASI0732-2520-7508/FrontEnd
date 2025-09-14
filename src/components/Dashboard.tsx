@@ -24,6 +24,8 @@ interface SupplierMetrics {
   categories: string[];
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const Dashboard: React.FC = () => {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -37,9 +39,9 @@ export const Dashboard: React.FC = () => {
       const headers = { Authorization: `Bearer ${accessToken}` };
 
       const [itemsRes, suppliersRes, categoriesRes] = await Promise.all([
-        fetch('http://localhost:8000/api/items/', { headers }),
-        fetch('http://localhost:8000/api/suppliers/', { headers }),
-        fetch('http://localhost:8000/api/categories/', { headers }),
+        fetch(`${API_URL}/api/items/`, { headers }),
+        fetch(`${API_URL}/api/suppliers/`, { headers }),
+        fetch(`${API_URL}/api/categories/`, { headers }),
       ]);
 
       const itemsData = await itemsRes.json();
