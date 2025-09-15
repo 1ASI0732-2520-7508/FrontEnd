@@ -7,6 +7,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { BarChart3, TrendingUp, TrendingDown, DollarSign, Package, AlertTriangle, Filter } from 'lucide-react';
 import { formatCurrency, getStockStatus } from '../utils/stockUtils';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const Analytics: React.FC = () => {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -20,8 +22,8 @@ export const Analytics: React.FC = () => {
 
       try {
         const [itemsRes, categoriesRes] = await Promise.all([
-          fetch('/api/items/', { headers }),
-          fetch('/api/categories/', { headers }),
+          fetch(`${API_URL}/api/items/`, { headers }),
+          fetch(`${API_URL}/api/categories/`, { headers }),
         ]);
 
         const itemsData = await itemsRes.json();
