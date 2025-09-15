@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { InventoryItem } from '../types/inventory';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { InventoryItem } from "../types/inventory";
+import axios from "axios";
 
 interface ApiItem {
   id: number;
@@ -24,7 +24,7 @@ interface Category {
 }
 
 export const useInventory = () => {
-  const token = localStorage.getItem('access_token');
+  const token = localStorage.getItem("access_token");
 
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -40,27 +40,27 @@ export const useInventory = () => {
   // Fetch suppliers
   const fetchSuppliers = async () => {
     try {
-      const res = await api.get('/api/suppliers/');
+      const res = await api.get("/api/suppliers/");
       setSuppliers(res.data);
     } catch (err) {
-      console.error('Error fetching suppliers', err);
+      console.error("Error fetching suppliers", err);
     }
   };
 
   // Fetch categories
   const fetchCategories = async () => {
     try {
-      const res = await api.get('/api/categories/');
+      const res = await api.get("/api/categories/");
       setCategories(res.data);
     } catch (err) {
-      console.error('Error fetching categories', err);
+      console.error("Error fetching categories", err);
     }
   };
 
   // Fetch items
   const fetchItems = async () => {
     try {
-      const res = await api.get('/api/items/');
+      const res = await api.get("/api/items/");
       const mappedItems: InventoryItem[] = res.data.map((i: ApiItem) => ({
         id: i.id.toString(),
         name: i.item_name,
@@ -68,15 +68,17 @@ export const useInventory = () => {
         quantity: i.current_quantity,
         minStock: i.minimum_stock_level,
         price: parseFloat(i.unit_price),
-        supplier: suppliers.find(s => s.id === i.supplier)?.supplier_name || '',
-        category: categories.find(c => c.id === i.category)?.category_name || '',
+        supplier:
+          suppliers.find((s) => s.id === i.supplier)?.supplier_name || "",
+        category:
+          categories.find((c) => c.id === i.category)?.category_name || "",
         lastUpdated: new Date(), // or get it from API if available
       }));
 
       console.log(mappedItems);
       setItems(mappedItems);
     } catch (err) {
-      console.error('Error fetching items', err);
+      console.error("Error fetching items", err);
     }
   };
 
@@ -87,12 +89,18 @@ export const useInventory = () => {
   }, [token]);
 
   // CRUD operations
-  const addItem = async (newItem: Omit<InventoryItem, 'id' | 'lastUpdated'>) => {
+  const addItem = async (
+    newItem: Omit<InventoryItem, "id" | "lastUpdated">,
+  ) => {
     try {
-      const categoryObj = categories.find(c => c.category_name === newItem.category);
-      const supplierObj = suppliers.find(s => s.supplier_name === newItem.supplier);
+      const categoryObj = categories.find(
+        (c) => c.category_name === newItem.category,
+      );
+      const supplierObj = suppliers.find(
+        (s) => s.supplier_name === newItem.supplier,
+      );
 
-      const res = await api.post('/api/items/', {
+      const res = await api.post("/api/items/", {
         item_name: newItem.name,
         description: newItem.description,
         current_quantity: newItem.quantity,
@@ -106,14 +114,21 @@ export const useInventory = () => {
 
       fetchItems();
     } catch (err) {
-      console.error('Error adding item', err);
+      console.error("Error adding item", err);
     }
   };
 
-  const editItem = async (updatedData: Omit<InventoryItem, 'id' | 'lastUpdated'>, id: string) => {
+  const editItem = async (
+    updatedData: Omit<InventoryItem, "id" | "lastUpdated">,
+    id: string,
+  ) => {
     try {
-      const categoryObj = categories.find(c => c.category_name === updatedData.category);
-      const supplierObj = suppliers.find(s => s.supplier_name === updatedData.supplier);
+      const categoryObj = categories.find(
+        (c) => c.category_name === updatedData.category,
+      );
+      const supplierObj = suppliers.find(
+        (s) => s.supplier_name === updatedData.supplier,
+      );
 
       await api.put(`/api/items/${id}/`, {
         item_name: updatedData.name,
@@ -127,24 +142,22 @@ export const useInventory = () => {
 
       fetchItems();
     } catch (err) {
-      console.error('Error updating item', err);
+      console.error("Error updating item", err);
     }
   };
 
+  // Delete item
   const deleteItem = async (id: string) => {
     try {
       await api.delete(`/api/items/${id}/`);
-      setItems(prev => prev.filter(item => item.id !== id));
+      setItems((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
-      console.error('Error deleting item', err);
+      console.error("Error deleting item", err);
     }
   };
 
   return { items, addItem, editItem, deleteItem, suppliers, categories };
 };
-
-
-
 
 /*import { useState, useEffect } from 'react';
 import { InventoryItem } from '../types/inventory';
@@ -255,3 +268,4 @@ export const useInventory = () => {
   return { items, loading, fetchItems, addItem, editItem, deleteItem };
 };
 */
+
