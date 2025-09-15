@@ -23,6 +23,7 @@ interface Category {
   category_name: string;
 }
 
+// Custom hook for inventory management
 export const useInventory = () => {
   const token = localStorage.getItem("access_token");
 
@@ -57,7 +58,7 @@ export const useInventory = () => {
     }
   };
 
-  // Fetch items
+  // Fetch items and map to frontend format
   const fetchItems = async () => {
     try {
       const res = await api.get("/api/items/");
@@ -268,4 +269,3 @@ export const useInventory = () => {
   return { items, loading, fetchItems, addItem, editItem, deleteItem };
 };
 */
-
