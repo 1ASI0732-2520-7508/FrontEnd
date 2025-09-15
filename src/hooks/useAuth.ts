@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { User, LoginCredentials, AuthState } from '../types/auth';
+import { useState, useEffect } from "react";
+import { User, LoginCredentials, AuthState } from "../types/auth";
 
 export const useAuth = () => {
   const [authState, setAuthState] = useState<AuthState>({
@@ -11,8 +11,9 @@ export const useAuth = () => {
   const API_URL = import.meta.env.VITE_API_URL;
   const LOGIN_URL = `${API_URL}/api/auth/token/`;
 
+  // On mount, check for existing user in localStorage
   useEffect(() => {
-    const storedUser = localStorage.getItem('inventoryUser');
+    const storedUser = localStorage.getItem("inventoryUser");
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser);
@@ -22,22 +23,24 @@ export const useAuth = () => {
           isLoading: false,
         });
       } catch {
-        localStorage.removeItem('inventoryUser');
+        localStorage.removeItem("inventoryUser");
         setAuthState({ user: null, isAuthenticated: false, isLoading: false });
       }
     } else {
-      setAuthState(prev => ({ ...prev, isLoading: false }));
+      setAuthState((prev) => ({ ...prev, isLoading: false }));
     }
   }, []);
 
-  const login = async (credentials: LoginCredentials): Promise<{ success: boolean; error?: string }> => {
-    setAuthState(prev => ({ ...prev, isLoading: true }));
+  const login = async (
+    credentials: LoginCredentials,
+  ): Promise<{ success: boolean; error?: string }> => {
+    setAuthState((prev) => ({ ...prev, isLoading: true }));
 
     console.log(credentials);
     try {
       const response = await fetch(LOGIN_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           username: credentials.username,
           password: credentials.password,
@@ -50,38 +53,38 @@ export const useAuth = () => {
 
       if (response.ok) {
         // Extract user info from JWT claims
-        const payload = JSON.parse(atob(data.access.split('.')[1]));
+        const payload = JSON.parse(atob(data.access.split(".")[1]));
         console.log(payload);
         // decode JWT
         const user: User = {
           id: payload.user_id,
           username: payload.username,
           email: payload.email,
-          group: payload.groups[0] as 'Admin' | 'Manager' | 'Employee',
+          group: payload.groups[0] as "Admin" | "Manager" | "Employee",
         };
 
-        console.log(user, 'payload');
+        console.log(user, "payload");
 
-        localStorage.setItem('inventoryUser', JSON.stringify(user));
-        localStorage.setItem('access_token', data.access);
-        localStorage.setItem('refresh_token', data.refresh);
+        localStorage.setItem("inventoryUser", JSON.stringify(user));
+        localStorage.setItem("access_token", data.access);
+        localStorage.setItem("refresh_token", data.refresh);
 
         setAuthState({ user, isAuthenticated: true, isLoading: false });
         return { success: true };
       } else {
-        setAuthState(prev => ({ ...prev, isLoading: false }));
-        return { success: false, error: data.detail || 'Invalid credentials' };
+        setAuthState((prev) => ({ ...prev, isLoading: false }));
+        return { success: false, error: data.detail || "Invalid credentials" };
       }
     } catch {
-      setAuthState(prev => ({ ...prev, isLoading: false }));
-      return { success: false, error: 'Network error' };
+      setAuthState((prev) => ({ ...prev, isLoading: false }));
+      return { success: false, error: "Network error" };
     }
   };
 
   const logout = () => {
-    localStorage.removeItem('inventoryUser');
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    localStorage.removeItem("inventoryUser");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     setAuthState({ user: null, isAuthenticated: false, isLoading: false });
   };
 
