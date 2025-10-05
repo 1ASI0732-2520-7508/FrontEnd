@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Package, Mail, Lock, AlertCircle } from 'lucide-react';
 import { LoginCredentials } from '../types/auth';
+import {EmailOtpModal} from "./EmailOtpModal.tsx";
 
 interface LoginFormProps {
   onLogin: (credentials: LoginCredentials) => Promise<{ success: boolean; error?: string }>;
   isLoading: boolean;
 }
+
 
 export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
   const [credentials, setCredentials] = useState<LoginCredentials>({
@@ -14,6 +16,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+
+  const [needsEmailOtp, setNeedsEmailOtp] = useState<null | string>(null);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,17 +29,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
       return;
     }
 
-    const result = await onLogin(credentials);
-    if (!result.success && result.error) {
-      setError(result.error);
-    }
+    setNeedsEmailOtp(credentials.username);
+
   };
 
-  const demoCredentials = [
-    { email: 'admin@inventorypro.com', role: 'Admin' },
-    { email: 'manager@inventorypro.com', role: 'Manager' },
-    { email: 'demo@inventorypro.com', role: 'Employee' },
-  ];
+  const afterOtpVerified = async () => {
+    const result = await onLogin(credentials);
+    if(!result.success && result.error) setError(result.error);
+  }
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 flex items-center justify-center p-4">
@@ -113,6 +117,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
           </form>
         </div>
       </div>
+      {needsEmailOtp &&(
+          <EmailOtpModal email={needsEmailOtp} onVerified={async ()=>{
+            await afterOtpVerified();
+            //hide model
+            setNeedsEmailOtp(null);
+          }} onCancel={()=> setNeedsEmailOtp(null)}
+          />
+      )}
     </div>
   );
 };
