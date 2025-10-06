@@ -93,7 +93,8 @@ export const SuppliersSection: React.FC<SuppliersSectionProps> = ({
                 <FileText className="w-4 h-4" />
                 <span>RUC: {supplier.ruc}</span>
               </div>
-              
+
+              {/*
               <div className="flex items-start space-x-2 text-sm text-gray-600">
                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
                 <span className="line-clamp-2">{supplier.address}</span>
@@ -101,14 +102,16 @@ export const SuppliersSection: React.FC<SuppliersSectionProps> = ({
               
               <div className="flex items-center space-x-2 text-sm text-gray-500">
                 <Calendar className="w-4 h-4" />
-              </div>
+              </div>*/}
             </div>
 
+            {/*
             <div className="mt-4 pt-4 border-t border-gray-100">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-500">Member since</span>
               </div>
             </div>
+            */}
           </div>
         ))}
       </div>
