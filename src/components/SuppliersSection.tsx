@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Building2, MapPin, FileText, Calendar } from 'lucide-react';
+import { Plus, Edit2, Trash2, Building2, FileText } from 'lucide-react';
 import { Supplier } from '../types/supplier';
 
 interface SuppliersSectionProps {

@@ -8,7 +8,7 @@ import {InventoryItem} from "../types/inventory.ts";
 import {Supplier} from "../types/supplier.ts";
 import {Category} from "../types/inventory.ts";
 import { formatCurrency, getStockStatus } from '../utils/stockUtils';
-import { exportToExcel } from '../utils/exportUtils';
+import {exportToExcel, exportToPDF} from '../utils/exportUtils';
 
 interface DashboardProps {
   accessToken: string;
@@ -197,6 +197,12 @@ export const Dashboard: React.FC = () => {
             </p>
           </div>
           <div className="flex items-center space-x-3">
+            <button
+                onClick={() => exportToPDF(filteredItems, selectedSupplier)}
+                className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium ">
+              <Download className="w-4 h-4"/>
+              <span>Export PDF</span>
+            </button>
             <button
                 onClick={() => exportToExcel(filteredItems, selectedSupplier)}
                 className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"

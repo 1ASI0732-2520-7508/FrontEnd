@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { AlertTriangle, Package, TrendingDown, Clock, CheckCircle, XCircle, Filter, Bell } from 'lucide-react';
 import { InventoryItem } from '../types/inventory';
-import { getStockStatus, formatCurrency, formatDate } from '../utils/stockUtils';
+import { getStockStatus, formatDate } from '../utils/stockUtils';
 
 interface AlertsSectionProps {
   items: InventoryItem[];
@@ -39,7 +39,7 @@ export const AlertsSection: React.FC<AlertsSectionProps> = ({ items }) => {
           title: 'Out of Stock',
           message: `${item.name} is completely out of stock and needs immediate restocking.`,
           item,
-          timestamp: new Date(item.lastUpdated),
+          timestamp: new Date(),
           acknowledged: acknowledgedAlerts.has(`out-of-stock-${item.id}`),
         });
       } else if (stockStatus === 'low-stock') {
