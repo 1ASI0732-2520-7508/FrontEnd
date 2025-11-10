@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { User, LoginCredentials, AuthState } from "../types/auth";
+import {User, LoginCredentials, AuthState, SignupCredentials} from "../types/auth";
 
 export const useAuth = () => {
   const [authState, setAuthState] = useState<AuthState>({
@@ -82,16 +82,25 @@ export const useAuth = () => {
   };
 
   const signup = async (
-      credentials: { username: string; email: string; password: string; group: number; company: number },
+      credentials: SignupCredentials
   ): Promise<{ success: boolean; error?: string }> => {
+    console.log('Credentials: ',credentials);
     try {
       const response = await fetch(`${API_URL}/api/users/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(credentials),
+        body: JSON.stringify({
+          username: credentials.email,
+          password: credentials.password,
+          email: credentials.email,
+          group: Number(credentials.group),
+          company: Number(credentials.company),
+        }),
       });
 
       const data = await response.json();
+
+      console.log('SignUp response', data);
 
       if (response.ok) {
         return { success: true};

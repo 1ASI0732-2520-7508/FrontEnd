@@ -2,6 +2,7 @@ import {SignupCredentials} from "../types/auth.ts";
 import React, {useState} from "react";
 import {AlertCircle, Eye, EyeOff, Lock, Mail, Package} from "lucide-react";
 import {GROUP_MAP} from "../types/group.ts";
+import {ConfirmationModal} from "./ConfirmationModal.tsx";
 
 interface SignUpFormProps {
     onSignUp: (credentials: SignupCredentials) => Promise<{success: boolean; error?: string}>;
@@ -20,6 +21,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
     })
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,18 +29,22 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
 
         credentials.company = 1;
         credentials.username = credentials.email;
+        console.log('Credentials: ',credentials);
 
-        if(!credentials.username || !credentials.password || !credentials.company || !credentials.group) {
-            setError('Please fill all fields');
-            return
+        if (!credentials.email.trim() || !credentials.password.trim() || credentials.group === -1) {
+            setError("Please fill all fields");
+            return;
         }
+
         if(credentials.password !== credentials.confirm_password){
             setError('Passwords don\'t match');
             return;
         }
 
         const result = await onSignUp(credentials);
-        if(!result.success && result.error) setError(result.error);
+        if(result.success){
+            setShowSuccessModal(true);
+        }else if(!result.success && result.error) setError(result.error);
 
     }
 
@@ -193,9 +199,20 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
                             </button>
                         </p>
                     </form>
+
+                    <ConfirmationModal
+                        isOpen = {showSuccessModal}
+                        onClose={() => {
+                            setShowSuccessModal(false);
+                            onSwitchToLogin();
+                        }}
+                        message = "Your account has been successfully created!."
+                    />
+
                 </div>
             </div>
         </div>
+
     );
 
 
