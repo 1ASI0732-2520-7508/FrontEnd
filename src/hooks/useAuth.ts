@@ -81,6 +81,28 @@ export const useAuth = () => {
     }
   };
 
+  const signup = async (
+      credentials: { username: string; email: string; password: string; group: number; company: number },
+  ): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const response = await fetch(`${API_URL}/api/users/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return { success: true};
+      } else {
+        return { success: false, error: data.detail || "Registration failed" };
+      }
+    } catch {
+      return { success: false, error: "Network error" };
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("inventoryUser");
     localStorage.removeItem("access_token");
@@ -88,5 +110,5 @@ export const useAuth = () => {
     setAuthState({ user: null, isAuthenticated: false, isLoading: false });
   };
 
-  return { ...authState, login, logout };
+  return { ...authState, login, logout, signup };
 };

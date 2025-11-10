@@ -17,14 +17,17 @@ import {ItemModal} from "./components/ItemModal.tsx";
 import {SupplierModal} from "./components/SupplierModal.tsx";
 import {useFilters} from "./hooks/useFilters.ts";
 import {Sidebar} from "./components/Sidebar.tsx";
+import {ThemeProvider} from './ThemeProvider.tsx'
+import {SignUpForm} from "./components/SignUpForm.tsx";
 
 function App() {
-  const { user, isAuthenticated, isLoading: authLoading, login, logout } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading, login, logout, signup } = useAuth();
   const [activeTab, setActiveTab] = useState('inventory');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSupplierModalOpen, setIsSupplierModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<InventoryItem | undefined>();
   const [editingSupplier, setEditingSupplier] = useState<Supplier | undefined>();
+  const [showSignup, setShowSignup] = useState(false);
 
   const { items, addItem, deleteItem, editItem } = useInventory();
   const { suppliers, addSupplier, deleteSupplier, editSupplier } = useSuppliers();
@@ -96,9 +99,24 @@ function App() {
   );
 
   // Login form
-  if (!isAuthenticated || !user) return <LoginForm onLogin={login} isLoading={authLoading} />;
 
+  if (!isAuthenticated || !user) {
+    return showSignup ? (
+        <SignUpForm
+            onSignUp={signup}
+            isLoading={authLoading}
+            onSwitchToLogin={() => setShowSignup(false)}
+        />
+    ) : (
+        <LoginForm
+            onLogin={login}
+            isLoading={authLoading}
+            onSwitchToSignup={() => setShowSignup(true)}
+        />
+    );
+  }
   return (
+      <ThemeProvider>
       <div className="min-h-screen bg-gray-50 flex">
         {/* Sidebar: only show tabs user has access to */}
         <Sidebar
@@ -183,6 +201,7 @@ function App() {
             supplier={editingSupplier}
         />
       </div>
+      </ThemeProvider>
   );
 }
 

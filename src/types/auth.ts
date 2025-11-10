@@ -12,6 +12,13 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface SignupCredentials extends  LoginCredentials{
+  email: string;
+  confirm_password: string;
+  company: number;
+  group: number;
+}
+
 
 export interface AuthState {
   user: User | null;
