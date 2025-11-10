@@ -1,6 +1,8 @@
 import React from 'react';
 import { Search, Bell, Plus, LogOut, User } from 'lucide-react';
 import { User as UserType } from '../types/auth';
+import {LanguageSwitcher} from "../shared/components/LanguageSwitcher.tsx";
+import ThemeSwitcher from "../shared/components/ThemeSwitcher.tsx";
 
 interface HeaderProps {
   onAddItem: () => void;
@@ -12,7 +14,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onAddItem, searchTerm, onSearchChange, user, onLogout }) => {
   return (
-    <header className="bg-white border-b border-gray-200 px-8 py-4">
+    <header className="dark:bg-white border-b dark:border-gray-200 px-8 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-6">
           <h2 className="text-2xl font-bold text-gray-900">Inventory Management</h2>
@@ -30,6 +32,8 @@ export const Header: React.FC<HeaderProps> = ({ onAddItem, searchTerm, onSearchC
         </div>
         
         <div className="flex items-center space-x-4">
+          <ThemeSwitcher></ThemeSwitcher>
+          <LanguageSwitcher/>
           <button className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200">
             <Bell className="w-5 h-5" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
