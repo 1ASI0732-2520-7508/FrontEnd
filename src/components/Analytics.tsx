@@ -1,23 +1,27 @@
-
-import {InventoryItem} from "../types/inventory.ts";
-import {Supplier} from "../types/supplier.ts";
-import {Category} from "../types/inventory.ts";
-
-import React, { useEffect, useMemo, useState } from 'react';
-import { BarChart3, TrendingUp, TrendingDown, DollarSign, Package, AlertTriangle, Filter } from 'lucide-react';
-import { formatCurrency, getStockStatus } from '../utils/stockUtils';
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  BarChart3,
+  TrendingUp,
+  DollarSign,
+  Package,
+  AlertTriangle,
+  Filter,
+} from "lucide-react";
+import { InventoryItem } from "../types/inventory";
+import { Category } from "../types/inventory";
+import { formatCurrency, getStockStatus } from "../utils/stockUtils";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const Analytics: React.FC = () => {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [timeFilter, setTimeFilter] = useState('all');
-  const [categoryFilter, setCategoryFilter] = useState('');
+  const [timeFilter, setTimeFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem("access_token");
       const headers = { Authorization: `Bearer ${token}` };
 
       try {
@@ -38,7 +42,7 @@ export const Analytics: React.FC = () => {
               minStock: i.minimum_stock_level,
               price: parseFloat(i.unit_price),
               supplier: i.supplier_name,
-              description: i.description || '',
+              description: i.description || "",
               lastUpdated: i.last_updated,
             }))
         );
@@ -51,7 +55,7 @@ export const Analytics: React.FC = () => {
             }))
         );
       } catch (error) {
-        console.error('Error fetching analytics data:', error);
+        console.error("Error fetching analytics data:", error);
       }
     };
 
@@ -61,23 +65,26 @@ export const Analytics: React.FC = () => {
   const filteredItems = useMemo(() => {
     let filtered = items;
 
-    if (categoryFilter) filtered = filtered.filter((item) => item.category === categoryFilter);
+    if (categoryFilter)
+      filtered = filtered.filter((item) => item.category === categoryFilter);
 
-    if (timeFilter !== 'all') {
+    if (timeFilter !== "all") {
       const now = new Date();
       const filterDate = new Date();
       switch (timeFilter) {
-        case '7d':
+        case "7d":
           filterDate.setDate(now.getDate() - 7);
           break;
-        case '30d':
+        case "30d":
           filterDate.setDate(now.getDate() - 30);
           break;
-        case '90d':
+        case "90d":
           filterDate.setDate(now.getDate() - 90);
           break;
       }
-      filtered = filtered.filter((item) => new Date(item.lastUpdated || now) >= filterDate);
+      filtered = filtered.filter(
+          (item) => new Date(item.lastUpdated || now) >= filterDate
+      );
     }
 
     return filtered;
@@ -85,18 +92,31 @@ export const Analytics: React.FC = () => {
 
   const analytics = useMemo(() => {
     const totalItems = filteredItems.length;
-    const totalValue = filteredItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
-    const totalQuantity = filteredItems.reduce((sum, item) => sum + item.quantity, 0);
+    const totalValue = filteredItems.reduce(
+        (sum, item) => sum + item.quantity * item.price,
+        0
+    );
+    const totalQuantity = filteredItems.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+    );
 
     const stockAnalysis = {
-      inStock: filteredItems.filter((i) => getStockStatus(i) === 'in-stock').length,
-      lowStock: filteredItems.filter((i) => getStockStatus(i) === 'low-stock').length,
-      outOfStock: filteredItems.filter((i) => getStockStatus(i) === 'out-of-stock').length,
+      inStock: filteredItems.filter((i) => getStockStatus(i) === "in-stock")
+          .length,
+      lowStock: filteredItems.filter((i) => getStockStatus(i) === "low-stock")
+          .length,
+      outOfStock: filteredItems.filter(
+          (i) => getStockStatus(i) === "out-of-stock"
+      ).length,
     };
 
     const categoryAnalysis = categories.map((c) => {
       const categoryItems = filteredItems.filter((i) => i.category === c.name);
-      const value = categoryItems.reduce((sum, i) => sum + i.quantity * i.price, 0);
+      const value = categoryItems.reduce(
+          (sum, i) => sum + i.quantity * i.price,
+          0
+      );
       const quantity = categoryItems.reduce((sum, i) => sum + i.quantity, 0);
       return {
         category: c.name,
@@ -108,9 +128,16 @@ export const Analytics: React.FC = () => {
       };
     });
 
-    const supplierAnalysis = [...new Set(filteredItems.map((i) => i.supplier))].map((supplierName, idx) => {
-      const supplierItems = filteredItems.filter((i) => i.supplier === supplierName);
-      const value = supplierItems.reduce((sum, i) => sum + i.quantity * i.price, 0);
+    const supplierAnalysis = [
+      ...new Set(filteredItems.map((i) => i.supplier)),
+    ].map((supplierName, idx) => {
+      const supplierItems = filteredItems.filter(
+          (i) => i.supplier === supplierName
+      );
+      const value = supplierItems.reduce(
+          (sum, i) => sum + i.quantity * i.price,
+          0
+      );
       const quantity = supplierItems.reduce((sum, i) => sum + i.quantity, 0);
       return {
         supplier: supplierName,
@@ -123,66 +150,102 @@ export const Analytics: React.FC = () => {
     });
 
     const priceAnalysis = {
-      highest: filteredItems.reduce((max, i) => (i.price > max.price ? i : max), filteredItems[0] || { price: 0 }),
-      lowest: filteredItems.reduce((min, i) => (i.price < min.price ? i : min), filteredItems[0] || { price: 0 }),
+      highest: filteredItems.reduce(
+          (max, i) => (i.price > max.price ? i : max),
+          filteredItems[0] || { price: 0 }
+      ),
+      lowest: filteredItems.reduce(
+          (min, i) => (i.price < min.price ? i : min),
+          filteredItems[0] || { price: 0 }
+      ),
       average: totalQuantity > 0 ? totalValue / totalQuantity : 0,
     };
 
-    return { totalItems, totalValue, totalQuantity, stockAnalysis, categoryAnalysis, supplierAnalysis, priceAnalysis };
+    return {
+      totalItems,
+      totalValue,
+      totalQuantity,
+      stockAnalysis,
+      categoryAnalysis,
+      supplierAnalysis,
+      priceAnalysis,
+    };
   }, [filteredItems, categories]);
 
   const statCards = [
     {
-      title: 'Total Portfolio Value',
+      title: "Total Portfolio Value",
       value: formatCurrency(analytics.totalValue),
       icon: DollarSign,
-      color: 'text-green-600 bg-green-50 border-green-200',
+      color:
+          "text-green-600 bg-green-50 border-green-200 dark:text-green-400 dark:bg-green-950/30 dark:border-green-800/40",
       change: `${analytics.totalItems} unique items`,
-      changeColor: 'text-green-600',
+      changeColor: "text-green-600 dark:text-green-400",
     },
     {
-      title: 'Total Units',
+      title: "Total Units",
       value: analytics.totalQuantity.toLocaleString(),
       icon: Package,
-      color: 'text-blue-600 bg-blue-50 border-blue-200',
+      color:
+          "text-blue-600 bg-blue-50 border-blue-200 dark:text-blue-400 dark:bg-blue-950/30 dark:border-blue-800/40",
       change: `Avg: ${formatCurrency(analytics.priceAnalysis.average)}`,
-      changeColor: 'text-blue-600',
+      changeColor: "text-blue-600 dark:text-blue-400",
     },
     {
-      title: 'Stock Health',
-      value: `${Math.round((analytics.stockAnalysis.inStock / analytics.totalItems) * 100 || 0)}%`,
+      title: "Stock Health",
+      value: `${Math.round(
+          (analytics.stockAnalysis.inStock / analytics.totalItems) * 100 || 0
+      )}%`,
       icon: TrendingUp,
-      color: 'text-green-600 bg-green-50 border-green-200',
+      color:
+          "text-green-600 bg-green-50 border-green-200 dark:text-green-400 dark:bg-green-950/30 dark:border-green-800/40",
       change: `${analytics.stockAnalysis.inStock} items healthy`,
-      changeColor: 'text-green-600',
+      changeColor: "text-green-600 dark:text-green-400",
     },
     {
-      title: 'Attention Needed',
-      value: (analytics.stockAnalysis.lowStock + analytics.stockAnalysis.outOfStock).toString(),
+      title: "Attention Needed",
+      value: (
+          analytics.stockAnalysis.lowStock + analytics.stockAnalysis.outOfStock
+      ).toString(),
       icon: AlertTriangle,
-      color: 'text-orange-600 bg-orange-50 border-orange-200',
+      color:
+          "text-orange-600 bg-orange-50 border-orange-200 dark:text-orange-400 dark:bg-orange-950/30 dark:border-orange-800/40",
       change: `${analytics.stockAnalysis.outOfStock} critical`,
-      changeColor: 'text-red-600',
+      changeColor: "text-red-600 dark:text-red-400",
     },
   ];
 
   return (
-      <div className="space-y-8">
+      <div className="space-y-8 transition-colors duration-300">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">Analytics</h2>
-            <p className="text-gray-600 mt-1">Comprehensive inventory insights and trends</p>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+              Analytics
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
+              Comprehensive inventory insights and trends
+            </p>
           </div>
           <div className="flex items-center space-x-3">
-            <Filter className="w-5 h-5 text-gray-400" />
-            <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="px-3 py-2 border rounded-lg">
+            <Filter className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+            <select
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                className="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+            >
               <option value="">All Categories</option>
               {categories.map((c) => (
-                  <option key={c.id} value={c.name}>{c.name}</option>
+                  <option key={c.id} value={c.name}>
+                    {c.name}
+                  </option>
               ))}
             </select>
-            <select value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)} className="px-3 py-2 border rounded-lg">
+            <select
+                value={timeFilter}
+                onChange={(e) => setTimeFilter(e.target.value)}
+                className="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+            >
               <option value="all">All Time</option>
               <option value="7d">Last 7 Days</option>
               <option value="30d">Last 30 Days</option>
@@ -196,14 +259,25 @@ export const Analytics: React.FC = () => {
           {statCards.map((stat, i) => {
             const Icon = stat.icon;
             return (
-                <div key={i} className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all">
+                <div
+                    key={i}
+                    className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-all"
+                >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
-                      <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
-                      <p className={`text-sm mt-2 ${stat.changeColor}`}>{stat.change}</p>
+                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                        {stat.title}
+                      </p>
+                      <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                        {stat.value}
+                      </p>
+                      <p className={`text-sm mt-2 ${stat.changeColor}`}>
+                        {stat.change}
+                      </p>
                     </div>
-                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center border ${stat.color}`}>
+                    <div
+                        className={`w-12 h-12 rounded-lg flex items-center justify-center border ${stat.color}`}
+                    >
                       <Icon className="w-6 h-6" />
                     </div>
                   </div>
@@ -213,22 +287,32 @@ export const Analytics: React.FC = () => {
         </div>
 
         {/* Category Analysis */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">Category Performance</h3>
-            <BarChart3 className="w-5 h-5 text-gray-400" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              Category Performance
+            </h3>
+            <BarChart3 className="w-5 h-5 text-gray-400 dark:text-gray-500" />
           </div>
           <div className="space-y-4">
-            {analytics.categoryAnalysis.map((cat, i) => (
+            {analytics.categoryAnalysis.map((cat) => (
                 <div key={cat.category}>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between text-gray-900 dark:text-gray-100">
                     <span>{cat.category}</span>
-                    <span>{formatCurrency(cat.value)} ({cat.percentage.toFixed(1)}%)</span>
+                    <span>
+                  {formatCurrency(cat.value)} ({cat.percentage.toFixed(1)}%)
+                </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="h-2 rounded-full" style={{ width: `${cat.percentage}%`, backgroundColor: cat.color }} />
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div
+                        className="h-2 rounded-full"
+                        style={{
+                          width: `${cat.percentage}%`,
+                          backgroundColor: cat.color,
+                        }}
+                    />
                   </div>
-                  <div className="flex justify-between text-xs text-gray-500">
+                  <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
                     <span>{cat.items} items</span>
                     <span>{cat.quantity} units</span>
                   </div>
@@ -238,24 +322,40 @@ export const Analytics: React.FC = () => {
         </div>
 
         {/* Supplier Analysis */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">Supplier Distribution</h3>
-            <TrendingUp className="w-5 h-5 text-gray-400" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              Supplier Distribution
+            </h3>
+            <TrendingUp className="w-5 h-5 text-gray-400 dark:text-gray-500" />
           </div>
           <div className="space-y-4">
-            {analytics.supplierAnalysis.map((sup, i) => (
-                <div key={sup.supplier} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            {analytics.supplierAnalysis.map((sup) => (
+                <div
+                    key={sup.supplier}
+                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/40 rounded-lg border border-gray-100 dark:border-gray-700"
+                >
                   <div className="flex items-center space-x-3">
-                    <div className="w-4 h-4 rounded-full" style={{ backgroundColor: sup.color }} />
+                    <div
+                        className="w-4 h-4 rounded-full"
+                        style={{ backgroundColor: sup.color }}
+                    />
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{sup.supplier}</p>
-                      <p className="text-xs text-gray-500">{sup.items} items • {sup.quantity} units</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {sup.supplier}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {sup.items} items • {sup.quantity} units
+                      </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-gray-900">{formatCurrency(sup.value)}</p>
-                    <p className="text-xs text-gray-500">{sup.percentage.toFixed(1)}%</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-gray-100">
+                      {formatCurrency(sup.value)}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {sup.percentage.toFixed(1)}%
+                    </p>
                   </div>
                 </div>
             ))}
@@ -264,44 +364,84 @@ export const Analytics: React.FC = () => {
 
         {/* Stock Status */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
-            <p className="text-2xl font-bold text-green-600">{analytics.stockAnalysis.inStock}</p>
-            <p className="text-sm font-medium">In Stock</p>
-            <p className="text-xs">{Math.round((analytics.stockAnalysis.inStock / analytics.totalItems) * 100 || 0)}% of inventory</p>
-          </div>
-          <div className="text-center p-4 bg-orange-50 rounded-lg border border-orange-200">
-            <p className="text-2xl font-bold text-orange-600">{analytics.stockAnalysis.lowStock}</p>
-            <p className="text-sm font-medium">Low Stock</p>
-            <p className="text-xs">{Math.round((analytics.stockAnalysis.lowStock / analytics.totalItems) * 100 || 0)}% needs reorder</p>
-          </div>
-          <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
-            <p className="text-2xl font-bold text-red-600">{analytics.stockAnalysis.outOfStock}</p>
-            <p className="text-sm font-medium">Out of Stock</p>
-            <p className="text-xs">{Math.round((analytics.stockAnalysis.outOfStock / analytics.totalItems) * 100 || 0)}% critical</p>
-          </div>
+          {[
+            {
+              label: "In Stock",
+              color:
+                  "text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800/40",
+              value: analytics.stockAnalysis.inStock,
+              subtitle: `${Math.round(
+                  (analytics.stockAnalysis.inStock / analytics.totalItems) * 100 || 0
+              )}% of inventory`,
+            },
+            {
+              label: "Low Stock",
+              color:
+                  "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800/40",
+              value: analytics.stockAnalysis.lowStock,
+              subtitle: `${Math.round(
+                  (analytics.stockAnalysis.lowStock / analytics.totalItems) * 100 ||
+                  0
+              )}% needs reorder`,
+            },
+            {
+              label: "Out of Stock",
+              color:
+                  "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800/40",
+              value: analytics.stockAnalysis.outOfStock,
+              subtitle: `${Math.round(
+                  (analytics.stockAnalysis.outOfStock / analytics.totalItems) *
+                  100 || 0
+              )}% critical`,
+            },
+          ].map((stat) => (
+              <div
+                  key={stat.label}
+                  className={`text-center p-4 rounded-lg border ${stat.color}`}
+              >
+                <p className="text-2xl font-bold">{stat.value}</p>
+                <p className="text-sm font-medium">{stat.label}</p>
+                <p className="text-xs">{stat.subtitle}</p>
+              </div>
+          ))}
         </div>
 
         {/* Price Analysis */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-sm font-medium text-blue-700">Highest Priced Item</p>
-            <p className="text-lg font-bold text-blue-900">{analytics.priceAnalysis.highest?.name || 'N/A'}</p>
-            <p className="text-sm text-blue-600">{formatCurrency(analytics.priceAnalysis.highest?.price || 0)}</p>
+          <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800/40">
+            <p className="text-sm font-medium text-blue-700 dark:text-blue-400">
+              Highest Priced Item
+            </p>
+            <p className="text-lg font-bold text-blue-900 dark:text-blue-100">
+              {analytics.priceAnalysis.highest?.name || "N/A"}
+            </p>
+            <p className="text-sm text-blue-600 dark:text-blue-400">
+              {formatCurrency(analytics.priceAnalysis.highest?.price || 0)}
+            </p>
           </div>
-          <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-            <p className="text-sm font-medium text-green-700">Average Unit Price</p>
-            <p className="text-lg font-bold text-green-900">{formatCurrency(analytics.priceAnalysis.average)}</p>
+          <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800/40">
+            <p className="text-sm font-medium text-green-700 dark:text-green-400">
+              Average Unit Price
+            </p>
+            <p className="text-lg font-bold text-green-900 dark:text-green-100">
+              {formatCurrency(analytics.priceAnalysis.average)}
+            </p>
           </div>
-          <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-            <p className="text-sm font-medium text-purple-700">Lowest Priced Item</p>
-            <p className="text-lg font-bold text-purple-900">{analytics.priceAnalysis.lowest?.name || 'N/A'}</p>
-            <p className="text-sm text-purple-600">{formatCurrency(analytics.priceAnalysis.lowest?.price || 0)}</p>
+          <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800/40">
+            <p className="text-sm font-medium text-purple-700 dark:text-purple-400">
+              Lowest Priced Item
+            </p>
+            <p className="text-lg font-bold text-purple-900 dark:text-purple-100">
+              {analytics.priceAnalysis.lowest?.name || "N/A"}
+            </p>
+            <p className="text-sm text-purple-600 dark:text-purple-400">
+              {formatCurrency(analytics.priceAnalysis.lowest?.price || 0)}
+            </p>
           </div>
         </div>
       </div>
   );
 };
-
 
 // import React, { useMemo, useState } from 'react';
 // import { BarChart3, TrendingUp, TrendingDown, DollarSign, Package, AlertTriangle, Calendar, Filter } from 'lucide-react';

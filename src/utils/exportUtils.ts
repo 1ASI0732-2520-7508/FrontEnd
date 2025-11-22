@@ -1,8 +1,8 @@
 import * as XLSX from 'xlsx';
 import { InventoryItem } from '../types/inventory';
-import { formatDate, getStockStatus } from './stockUtils';
+import { getStockStatus } from './stockUtils';
 import {jsPDF} from "jspdf";
-import {applyPlugin, autoTable} from "jspdf-autotable";
+import { autoTable} from "jspdf-autotable";
 
 
 export const exportToExcel = (items: InventoryItem[], supplierFilter?: string) => {
@@ -17,7 +17,6 @@ export const exportToExcel = (items: InventoryItem[], supplierFilter?: string) =
     'Stock Status': getStockStatus(item).replace('-', ' ').toUpperCase(),
     'Supplier': item.supplier,
     'Description': item.description,
-    'Last Updated': formatDate(item.lastUpdated),
   }));
 
   // Create workbook and worksheet
@@ -35,7 +34,6 @@ export const exportToExcel = (items: InventoryItem[], supplierFilter?: string) =
     { wch: 12 }, // Stock Status
     { wch: 20 }, // Supplier
     { wch: 30 }, // Description
-    { wch: 15 }, // Last Updated
   ];
   ws['!cols'] = colWidths;
 
@@ -78,7 +76,7 @@ export const exportToPDF = (items: InventoryItem[], supplierFilter?: string) => 
 
   doc.setFontSize(12);
 
-  let yPosition = 30;
+  const yPosition = 30;
 
   autoTable(doc, {
    head: [headers],

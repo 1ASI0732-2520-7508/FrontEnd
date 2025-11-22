@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Bell, Plus, LogOut, User } from 'lucide-react';
+import { Search, Plus, LogOut, User } from 'lucide-react';
 import { User as UserType } from '../types/auth';
 import {LanguageSwitcher} from "../shared/components/LanguageSwitcher.tsx";
 import ThemeSwitcher from "../shared/components/ThemeSwitcher.tsx";
@@ -34,10 +34,10 @@ export const Header: React.FC<HeaderProps> = ({ onAddItem, searchTerm, onSearchC
         <div className="flex items-center space-x-4">
           <ThemeSwitcher></ThemeSwitcher>
           <LanguageSwitcher/>
-          <button className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+          {/*<button className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200">
             <Bell className="w-5 h-5" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-          </button>
+          </button>*/}
           
           <div className="flex items-center space-x-3 px-3 py-2 bg-gray-50 rounded-lg">
             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">

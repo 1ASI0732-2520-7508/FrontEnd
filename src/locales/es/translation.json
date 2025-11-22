@@ -1,3 +1,26 @@
 {
-
+  "suppliers": {
+    "title": "Proveedores",
+    "subtitle": "Gestiona las relaciones con tus proveedores",
+    "addButton": "Agregar proveedor",
+    "searchPlaceholder": "Buscar proveedores por nombre, empresa o RUC...",
+    "editTooltip": "Editar proveedor",
+    "deleteTooltip": "Eliminar proveedor",
+    "deleteConfirm": "¿Seguro que deseas eliminar este proveedor?",
+    "ruc": "RUC",
+    "noSuppliersTitle": "Aún no hay proveedores",
+    "noSuppliersSubtitle": "Comienza agregando tu primer proveedor",
+    "noResultsTitle": "No se encontraron proveedores",
+    "noResultsSubtitle": "Prueba ajustando los términos de búsqueda"
+  },
+  "stats": {
+    "totalItems": "Artículos totales",
+    "totalItemsChange": "+12 este mes",
+    "totalValue": "Valor total",
+    "totalValueChange": "+8.2%",
+    "lowStock": "Stock bajo",
+    "lowStockChange": "Requiere atención",
+    "outOfStock": "Sin stock",
+    "outOfStockChange": "Urgente"
+  }
 }

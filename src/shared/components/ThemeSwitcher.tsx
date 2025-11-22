@@ -1,9 +1,13 @@
-import { ThemeContext } from "../../ThemeProvider";
-import {useContext} from "react";
+import { useContext } from "react";
+import { ThemeContext } from "../../ThemeProvider.tsx";
 
+function ThemeSwitcher() {
+    const context = useContext(ThemeContext);
 
-export default function ThemeSwitcher() {
-    const { theme, toggleTheme } = useContext(ThemeContext);
+    if(!context) {
+        throw new Error("ThemeSwitcher must be used within ThemeProvider");
+    }
+    const { theme, toggleTheme } = context;
     const isDark = theme === "dark";
 
     return (
@@ -12,71 +16,70 @@ export default function ThemeSwitcher() {
             role="switch"
             aria-checked={isDark}
             onClick={toggleTheme}
+            aria-label={`Switch to ${isDark ? "Light" : "Dark"} mode`}
             className={[
-                "group inline-flex items-center gap-2 select-none",
-                "rounded-2xl p-1",
-                "bg-gray-100 dark:bg-gray-800",
-                "shadow-sm ring-1 ring-inset ring-gray-300/60 dark:ring-gray-700/60",
-                "transition-colors duration-300",
-                "hover:bg-gray-200/80 dark:hover:bg-gray-700/80",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70"
+                "group relative inline-flex h-10 w-20 items-center",
+                "rounded-full border shadow-inner transition-all duration-300 ease-out",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+                "focus-visible:ring-indigo-500 ring-offset-slate-100 dark:ring-offset-slate-900",
+                "border-slate-300 bg-gradient-to-br from-slate-50 to-slate-200",
+                "dark:border-slate-700 dark:from-slate-800 dark:to-slate-900",
+                "hover:shadow-lg"
             ].join(" ")}
-            title={`Switch to ${isDark ? "Light" : "Dark"} mode`}
         >
-            {/* Sun / Moon icons */}
-            <span className="relative flex h-6 w-6 items-center justify-center">
-        {/* Sun */}
-                <svg
-                    aria-hidden
-                    viewBox="0 0 24 24"
-                    className="absolute h-5 w-5 opacity-100 transition-opacity duration-300 group-[aria-checked=true]:opacity-0"
-                >
-          <path
-              fill="currentColor"
-              d="M12 4a1 1 0 0 1 1-1h0a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V4Zm7 8a1 1 0 0 1 1-1h1a1 1 0 1 1 0 2h-1a1 1 0 0 1-1-1ZM4 11a1 1 0 0 1 1-1H4a1 1 0 1 1 0 2h1a1 1 0 0 1-1-1Zm7 9a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1Zm8.657-12.243a1 1 0 0 1 1.414 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707ZM5.636 17.657a1 1 0 1 1 1.414 1.414l-.707.707A1 1 0 1 1 4.93 18.364l.707-.707Zm12.021 6e-3a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 1 1-1.414 1.414l-.707-.707ZM6.343 6.343A1 1 0 1 1 7.757 4.93l.707.707A1 1 0 0 1 7.05 7.05l-.707-.707Z"
-          />
-          <circle cx="12" cy="12" r="3.25" fill="currentColor" />
-        </svg>
-                {/* Moon */}
-                <svg
-                    aria-hidden
-                    viewBox="0 0 24 24"
-                    className="absolute h-5 w-5 opacity-0 transition-opacity duration-300 group-[aria-checked=true]:opacity-100"
-                >
-          <path
-              fill="currentColor"
-              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"
-          />
-        </svg>
-      </span>
+            {/* Sun icon (left) */}
+            <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className={[
+                    "absolute left-2 h-5 w-5 transition-opacity duration-300",
+                    isDark ? "opacity-0" : "opacity-100",
+                    "text-amber-500"
+                ].join(" ")}
+            >
+                <path
+                    fill="currentColor"
+                    d="M6.76 4.84l-1.8-1.79L3.17 4.84l1.79 1.8 1.8-1.8zm10.48 0l1.8-1.79 1.79 1.79-1.79 1.8-1.8-1.8zM12 2h0a1 1 0 011 1v2a1 1 0 11-2 0V3a1 1 0 011-1zm0 17a5 5 0 100-10 5 5 0 000 10zm9-6a1 1 0 110 2h-2a1 1 0 110-2h2zM5 13a1 1 0 110 2H3a1 1 0 110-2h2zm1.76 6.16l-1.8 1.8-1.79-1.8 1.79-1.8 1.8 1.8zm10.48 0l1.8 1.8 1.79-1.8-1.79-1.8-1.8 1.8zM12 19a1 1 0 011 1v2a1 1 0 11-2 0v-2a1 1 0 011-1z"
+                />
+            </svg>
 
-            {/* Track with animated thumb */}
+            {/* Moon icon (right) */}
+            <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className={[
+                    "absolute right-2 h-5 w-5 transition-opacity duration-300",
+                    isDark ? "opacity-100" : "opacity-0",
+                    "text-sky-400"
+                ].join(" ")}
+            >
+                <path
+                    fill="currentColor"
+                    d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+                />
+            </svg>
+
+            {/* Knob */}
             <span
                 className={[
-                    "relative h-7 w-14",
-                    "rounded-full",
-                    "bg-white/70 dark:bg-black/20",
-                    "ring-1 ring-inset ring-gray-300/70 dark:ring-gray-700/70",
-                    "transition-colors duration-300"
+                    "absolute left-1 top-1 h-8 w-8 rounded-full shadow-md",
+                    "bg-white dark:bg-slate-700",
+                    "transform transition-transform duration-300 ease-out",
+                    isDark ? "translate-x-10" : "translate-x-0"
                 ].join(" ")}
-                aria-hidden
-            >
-        <span
-            className={[
-                "absolute top-1/2 -translate-y-1/2",
-                "h-5 w-5 rounded-full",
-                "bg-gray-900 dark:bg-white",
-                "shadow-sm",
-                "transition-transform duration-300",
-                isDark ? "translate-x-[2.25rem]" : "translate-x-1"
-            ].join(" ")}
-        />
-      </span>
+            />
 
-            {/* Label */}
-            <span className="min-w-[5.5rem] text-sm font-medium text-gray-800 dark:text-gray-100">
-        {isDark ? "Dark" : "Light"} mode
+            {/* Visible label (optional). Remove if you want icon-only */}
+            <span
+                className={[
+                    "pointer-events-none absolute -bottom-6 w-full text-center text-xs",
+                    "text-slate-700 dark:text-slate-300 select-none"
+                ].join(" ")}
+            >
+        {isDark ? "Dark" : "Light"}
       </span>
         </button>
     );
 }
+
+export default ThemeSwitcher;

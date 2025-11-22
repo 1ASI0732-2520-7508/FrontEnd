@@ -187,22 +187,27 @@ export const Dashboard: React.FC = () => {
   ];
 
   return (
-      <div className="space-y-8">
+      <div className="space-y-8 transition-colors duration-300">
         {/* Header with Supplier Filter */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">Dashboard</h2>
-            <p className="text-gray-600 mt-1">
-              {selectedSupplier ? `Analytics for ${selectedSupplier}` : 'Overview of all inventory'}
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h2>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
+              {selectedSupplier
+                  ? `Analytics for ${selectedSupplier}`
+                  : "Overview of all inventory"}
             </p>
           </div>
+
           <div className="flex items-center space-x-3">
             <button
                 onClick={() => exportToPDF(filteredItems, selectedSupplier)}
-                className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium ">
-              <Download className="w-4 h-4"/>
+                className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
+            >
+              <Download className="w-4 h-4" />
               <span>Export PDF</span>
             </button>
+
             <button
                 onClick={() => exportToExcel(filteredItems, selectedSupplier)}
                 className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
@@ -211,14 +216,14 @@ export const Dashboard: React.FC = () => {
               <span>Export Excel</span>
             </button>
 
-            <Filter className="w-5 h-5 text-gray-400" />
+            <Filter className="w-5 h-5 text-gray-400 dark:text-gray-500" />
             <select
                 value={selectedSupplier}
                 onChange={(e) => setSelectedSupplier(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
             >
               <option value="">All Suppliers</option>
-              {suppliers.map(sup => (
+              {suppliers.map((sup) => (
                   <option key={sup.id} value={sup.supplierName}>
                     {sup.supplierName}
                   </option>
@@ -232,14 +237,23 @@ export const Dashboard: React.FC = () => {
           {statCards.map((stat, idx) => {
             const Icon = stat.icon;
             return (
-                <div key={idx} className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                <div
+                    key={idx}
+                    className="dark:bg-white rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
-                      <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                        {stat.title}
+                      </p>
+                      <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                        {stat.value}
+                      </p>
                       <p className={`text-sm mt-2 ${stat.changeColor}`}>{stat.change}</p>
                     </div>
-                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center border ${stat.color}`}>
+                    <div
+                        className={`w-12 h-12 rounded-lg flex items-center justify-center border ${stat.color}`}
+                    >
                       <Icon className="w-6 h-6" />
                     </div>
                   </div>
@@ -251,23 +265,41 @@ export const Dashboard: React.FC = () => {
         {/* Category & Top Items */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Category Distribution */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Category Distribution</h3>
-              <BarChart3 className="w-5 h-5 text-gray-400" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Category Distribution
+              </h3>
+              <BarChart3 className="w-5 h-5 text-gray-400 dark:text-gray-500" />
             </div>
             <div className="space-y-4">
               {categoryDistribution.map((item, idx) => (
-                  <div key={item.category} className="flex items-center justify-between">
+                  <div
+                      key={item.category}
+                      className="flex items-center justify-between text-gray-700 dark:text-gray-300"
+                  >
                     <div className="flex items-center space-x-3">
-                      <div className="w-4 h-4 rounded-full" style={{ backgroundColor: `hsl(${idx * 60}, 70%, 50%)` }} />
-                      <span className="text-sm font-medium text-gray-700">{item.category}</span>
+                      <div
+                          className="w-4 h-4 rounded-full"
+                          style={{
+                            backgroundColor: `hsl(${idx * 60}, 70%, 50%)`,
+                          }}
+                      />
+                      <span className="text-sm font-medium">{item.category}</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <div className="w-24 bg-gray-200 rounded-full h-2">
-                        <div className="h-2 rounded-full transition-all duration-500" style={{ width: `${item.percentage}%`, backgroundColor: `hsl(${idx * 60}, 70%, 50%)` }} />
+                      <div className="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div
+                            className="h-2 rounded-full transition-all duration-500"
+                            style={{
+                              width: `${item.percentage}%`,
+                              backgroundColor: `hsl(${idx * 60}, 70%, 50%)`,
+                            }}
+                        />
                       </div>
-                      <span className="text-sm text-gray-600 w-12 text-right">{item.quantity}                  </span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400 w-12 text-right">
+                  {item.quantity}
+                </span>
                     </div>
                   </div>
               ))}
@@ -275,26 +307,41 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Top Items by Value */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Top Items by Value</h3>
-              <TrendingUp className="w-5 h-5 text-gray-400" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Top Items by Value
+              </h3>
+              <TrendingUp className="w-5 h-5 text-gray-400 dark:text-gray-500" />
             </div>
             <div className="space-y-4">
               {topItemsByValue.map((item, idx) => (
-                  <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div
+                      key={item.id}
+                      className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/40 rounded-lg border border-gray-100 dark:border-gray-700"
+                  >
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-bold text-blue-600">{idx + 1}</span>
+                      <div className="w-8 h-8 bg-blue-100 dark:bg-blue-950/30 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                    {idx + 1}
+                  </span>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-900">{item.name}</p>
-                        <p className="text-xs text-gray-500">{item.quantity} units × {formatCurrency(item.price)}</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                          {item.name}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {item.quantity} units × {formatCurrency(item.price)}
+                        </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold text-gray-900">{formatCurrency(item.totalValue)}</p>
-                      <p className="text-xs text-gray-500">{item.category}</p>
+                      <p className="text-sm font-bold text-gray-900 dark:text-gray-100">
+                        {formatCurrency(item.totalValue)}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {item.category}
+                      </p>
                     </div>
                   </div>
               ))}
@@ -304,51 +351,94 @@ export const Dashboard: React.FC = () => {
 
         {/* Supplier Performance Table */}
         {!selectedSupplier && (
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="dark:bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-gray-900">Supplier Performance</h3>
-                <Users className="w-5 h-5 text-gray-400" />
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  Supplier Performance
+                </h3>
+                <Users className="w-5 h-5 text-gray-400 dark:text-gray-500" />
               </div>
 
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 font-medium text-gray-700">Supplier</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-700">Items</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-700">Total Value</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-700">Categories</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-700">Issues</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-700">Action</th>
+                  <tr className="border-b border-gray-200 dark:border-gray-700">
+                    <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
+                      Supplier
+                    </th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
+                      Items
+                    </th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
+                      Total Value
+                    </th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
+                      Categories
+                    </th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
+                      Issues
+                    </th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
+                      Action
+                    </th>
                   </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
-                  {Object.values(supplierMetrics).map(sup => (
-                      <tr key={sup.name} className="hover:bg-gray-50 transition-colors duration-150">
-                        <td className="py-3 px-4 font-medium text-gray-900">{sup.name}</td>
-                        <td className="py-3 px-4 text-gray-600">{sup.totalItems}</td>
-                        <td className="py-3 px-4 font-medium text-gray-900">{formatCurrency(sup.totalValue)}</td>
+                  <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+                  {Object.values(supplierMetrics).map((sup) => (
+                      <tr
+                          key={sup.name}
+                          className="hover:bg-gray-50 dark:hover:bg-gray-900/40 transition-colors duration-150"
+                      >
+                        <td className="py-3 px-4 font-medium text-gray-900 dark:text-gray-100">
+                          {sup.name}
+                        </td>
+                        <td className="py-3 px-4 text-gray-600 dark:text-gray-400">
+                          {sup.totalItems}
+                        </td>
+                        <td className="py-3 px-4 font-medium text-gray-900 dark:text-gray-100">
+                          {formatCurrency(sup.totalValue)}
+                        </td>
                         <td className="py-3 px-4">
                           <div className="flex flex-wrap gap-1">
-                            {sup.categories.slice(0, 2).map(cat => (
-                                <span key={cat} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">{cat}</span>
+                            {sup.categories.slice(0, 2).map((cat) => (
+                                <span
+                                    key={cat}
+                                    className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs rounded-full"
+                                >
+                          {cat}
+                        </span>
                             ))}
                             {sup.categories.length > 2 && (
-                                <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">+{sup.categories.length - 2}</span>
+                                <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs rounded-full">
+                          +{sup.categories.length - 2}
+                        </span>
                             )}
                           </div>
                         </td>
                         <td className="py-3 px-4">
                           <div className="flex space-x-2">
-                            {sup.lowStockItems > 0 && <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full">{sup.lowStockItems} low</span>}
-                            {sup.outOfStockItems > 0 && <span className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full">{sup.outOfStockItems} out</span>}
-                            {sup.lowStockItems === 0 && sup.outOfStockItems === 0 && <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Good</span>}
+                            {sup.lowStockItems > 0 && (
+                                <span className="px-2 py-1 bg-orange-100 dark:bg-orange-950/30 text-orange-700 dark:text-orange-400 text-xs rounded-full">
+                          {sup.lowStockItems} low
+                        </span>
+                            )}
+                            {sup.outOfStockItems > 0 && (
+                                <span className="px-2 py-1 bg-red-100 dark:bg-red-950/30 text-red-700 dark:text-red-400 text-xs rounded-full">
+                          {sup.outOfStockItems} out
+                        </span>
+                            )}
+                            {sup.lowStockItems === 0 &&
+                                sup.outOfStockItems === 0 && (
+                                    <span className="px-2 py-1 bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400 text-xs rounded-full">
+                            Good
+                          </span>
+                                )}
                           </div>
                         </td>
                         <td className="py-3 px-4">
                           <button
                               onClick={() => setSelectedSupplier(sup.name)}
-                              className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 transition-colors duration-200"
+                              className="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
                           >
                             <Eye className="w-4 h-4" />
                             <span className="text-sm">View</span>
@@ -363,6 +453,7 @@ export const Dashboard: React.FC = () => {
         )}
       </div>
   );
+
 };
 
 

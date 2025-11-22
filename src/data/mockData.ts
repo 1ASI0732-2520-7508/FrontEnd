@@ -1,4 +1,4 @@
-import { InventoryItem, Category } from '../types/inventory';
+import {  Category } from '../types/inventory';
 
 export const categories: Category[] = [
   { id: '1', name: 'Electronics', color: '#3B82F6' },
