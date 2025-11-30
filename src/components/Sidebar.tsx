@@ -38,16 +38,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }
   const visibleMenuItems = getRoleBasedMenuItems(user.group);
 
   return (
-    <div className="w-64 bg-white border-r border-gray-200 h-full">
-      <div className="p-6 border-b border-gray-200">
+    <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full transition-colors duration-300">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <Package className="w-5 h-5 text-white" />
           </div>
-          <h1 className="text-xl font-bold text-gray-900">InventoryPro</h1>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">InventoryPro</h1>
         </div>
         <div className="mt-2">
-          <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">
+          <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-medium">
             {user.group} Portal
           </span>
         </div>
@@ -63,8 +63,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }
                   onClick={() => onTabChange(item.id)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
                     activeTab === item.id
-                      ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600 font-medium'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      ? 'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 border-l-4 border-blue-600 dark:border-blue-500 font-medium'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/40 hover:text-gray-900 dark:hover:text-gray-100'
                   }`}
                 >
                   <Icon className="w-5 h-5" />

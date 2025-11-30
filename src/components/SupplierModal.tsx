@@ -80,15 +80,15 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h3 className="text-xl font-bold text-gray-900">
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transition-colors duration-300">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {supplier ? 'Edit Supplier' : 'Add New Supplier'}
           </h3>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+            className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
           >
             <X className="w-5 h-5" />
           </button>
@@ -97,43 +97,43 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Supplier Name *
               </label>
               <input
                 type="text"
                 value={formData.supplierName}
                 onChange={(e) => setFormData({ ...formData, supplierName: e.target.value })}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                  errors.supplierName ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 ${
+                  errors.supplierName ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-700'
                 }`}
                 placeholder="Enter supplier name"
               />
               {errors.supplierName && (
-                <p className="text-red-600 text-sm mt-1">{errors.supplierName}</p>
+                <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.supplierName}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Company Name *
               </label>
               <input
                 type="text"
                 value={formData.companyName}
                 onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                  errors.companyName ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 ${
+                  errors.companyName ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-700'
                 }`}
                 placeholder="Enter company name"
               />
               {errors.companyName && (
-                <p className="text-red-600 text-sm mt-1">{errors.companyName}</p>
+                <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.companyName}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 RUC *
               </label>
               <input
@@ -141,40 +141,40 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
                 value={formData.ruc}
                 onChange={(e) => setFormData({ ...formData, ruc: e.target.value.replace(/\D/g, '') })}
                 maxLength={11}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                  errors.ruc ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 ${
+                  errors.ruc ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-700'
                 }`}
                 placeholder="Enter 11-digit RUC"
               />
               {errors.ruc && (
-                <p className="text-red-600 text-sm mt-1">{errors.ruc}</p>
+                <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.ruc}</p>
               )}
             </div>
 
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Address *
               </label>
               <textarea
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 rows={3}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                  errors.address ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 ${
+                  errors.address ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-700'
                 }`}
                 placeholder="Enter complete address"
               />
               {errors.address && (
-                <p className="text-red-600 text-sm mt-1">{errors.address}</p>
+                <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.address}</p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
+              className="px-6 py-2 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 font-medium"
             >
               Cancel
             </button>

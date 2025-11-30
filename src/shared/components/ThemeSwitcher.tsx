@@ -18,13 +18,15 @@ function ThemeSwitcher() {
             onClick={toggleTheme}
             aria-label={`Switch to ${isDark ? "Light" : "Dark"} mode`}
             className={[
-                "group relative inline-flex h-10 w-20 items-center",
+                "group relative inline-flex h-8 w-16 items-center",
                 "rounded-full border shadow-inner transition-all duration-300 ease-out",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-                "focus-visible:ring-indigo-500 ring-offset-slate-100 dark:ring-offset-slate-900",
-                "border-slate-300 bg-gradient-to-br from-slate-50 to-slate-200",
-                "dark:border-slate-700 dark:from-slate-800 dark:to-slate-900",
-                "hover:shadow-lg"
+                "focus-visible:ring-blue-500 dark:focus-visible:ring-blue-400",
+                "ring-offset-white dark:ring-offset-gray-800",
+                "border-gray-300 dark:border-gray-600",
+                "bg-gradient-to-br from-gray-100 to-gray-200",
+                "dark:from-gray-700 dark:to-gray-800",
+                "hover:shadow-lg dark:hover:shadow-lg"
             ].join(" ")}
         >
             {/* Sun icon (left) */}
@@ -32,9 +34,9 @@ function ThemeSwitcher() {
                 aria-hidden="true"
                 viewBox="0 0 24 24"
                 className={[
-                    "absolute left-2 h-5 w-5 transition-opacity duration-300",
+                    "absolute left-1.5 h-4 w-4 transition-opacity duration-300 z-10",
                     isDark ? "opacity-0" : "opacity-100",
-                    "text-amber-500"
+                    "text-amber-500 dark:text-amber-400"
                 ].join(" ")}
             >
                 <path
@@ -48,9 +50,9 @@ function ThemeSwitcher() {
                 aria-hidden="true"
                 viewBox="0 0 24 24"
                 className={[
-                    "absolute right-2 h-5 w-5 transition-opacity duration-300",
+                    "absolute right-1.5 h-4 w-4 transition-opacity duration-300 z-10",
                     isDark ? "opacity-100" : "opacity-0",
-                    "text-sky-400"
+                    "text-blue-300 dark:text-blue-400"
                 ].join(" ")}
             >
                 <path
@@ -62,22 +64,23 @@ function ThemeSwitcher() {
             {/* Knob */}
             <span
                 className={[
-                    "absolute left-1 top-1 h-8 w-8 rounded-full shadow-md",
-                    "bg-white dark:bg-slate-700",
+                    "absolute left-0.5 top-0.5 h-7 w-7 rounded-full shadow-md",
+                    "bg-white dark:bg-gray-200",
+                    "border border-gray-200 dark:border-gray-400",
                     "transform transition-transform duration-300 ease-out",
-                    isDark ? "translate-x-10" : "translate-x-0"
+                    isDark ? "translate-x-8" : "translate-x-0"
                 ].join(" ")}
             />
 
-            {/* Visible label (optional). Remove if you want icon-only */}
+            {/* Visible label */}
             <span
                 className={[
-                    "pointer-events-none absolute -bottom-6 w-full text-center text-xs",
-                    "text-slate-700 dark:text-slate-300 select-none"
+                    "pointer-events-none absolute -bottom-5 w-full text-center text-[10px] font-medium",
+                    "text-gray-700 dark:text-gray-300 select-none"
                 ].join(" ")}
             >
-        {isDark ? "Dark" : "Light"}
-      </span>
+                {isDark ? "Dark" : "Light"}
+            </span>
         </button>
     );
 }

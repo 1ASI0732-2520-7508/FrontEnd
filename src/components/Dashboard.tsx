@@ -156,33 +156,33 @@ export const Dashboard: React.FC = () => {
       title: 'Total Items',
       value: dashboardStats.totalItems.toString(),
       icon: Package,
-      color: 'text-blue-600 bg-blue-50 border-blue-200',
+      color: 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/50',
       change: `${dashboardStats.totalQuantity} units`,
-      changeColor: 'text-blue-600',
+      changeColor: 'text-blue-600 dark:text-blue-400',
     },
     {
       title: 'Total Value',
       value: formatCurrency(dashboardStats.totalValue),
       icon: DollarSign,
-      color: 'text-green-600 bg-green-50 border-green-200',
+      color: 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-950/30 border-green-200 dark:border-green-800/50',
       change: `Avg: ${formatCurrency(dashboardStats.averagePrice)}`,
-      changeColor: 'text-green-600',
+      changeColor: 'text-green-600 dark:text-green-400',
     },
     {
       title: 'In Stock',
       value: dashboardStats.inStockItems.toString(),
       icon: TrendingUp,
-      color: 'text-green-600 bg-green-50 border-green-200',
+      color: 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-950/30 border-green-200 dark:border-green-800/50',
       change: 'Healthy levels',
-      changeColor: 'text-green-600',
+      changeColor: 'text-green-600 dark:text-green-400',
     },
     {
       title: 'Needs Attention',
       value: (dashboardStats.lowStockItems + dashboardStats.outOfStockItems).toString(),
       icon: AlertTriangle,
-      color: 'text-orange-600 bg-orange-50 border-orange-200',
+      color: 'text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800/50',
       change: `${dashboardStats.outOfStockItems} out of stock`,
-      changeColor: 'text-red-600',
+      changeColor: 'text-red-600 dark:text-red-400',
     },
   ];
 
@@ -239,7 +239,7 @@ export const Dashboard: React.FC = () => {
             return (
                 <div
                     key={idx}
-                    className="dark:bg-white rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                    className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -351,7 +351,7 @@ export const Dashboard: React.FC = () => {
 
         {/* Supplier Performance Table */}
         {!selectedSupplier && (
-            <div className="dark:bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-300">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                   Supplier Performance
