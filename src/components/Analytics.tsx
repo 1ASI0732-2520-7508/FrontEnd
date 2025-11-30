@@ -10,10 +10,12 @@ import {
 import { InventoryItem } from "../types/inventory";
 import { Category } from "../types/inventory";
 import { formatCurrency, getStockStatus } from "../utils/stockUtils";
+import { useTranslation } from 'react-i18next';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const Analytics: React.FC = () => {
+  const { t } = useTranslation();
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [timeFilter, setTimeFilter] = useState("all");
@@ -174,43 +176,43 @@ export const Analytics: React.FC = () => {
 
   const statCards = [
     {
-      title: "Total Portfolio Value",
+      title: t('analytics.stats.totalPortfolioValue'),
       value: formatCurrency(analytics.totalValue),
       icon: DollarSign,
       color:
           "text-green-600 bg-green-50 border-green-200 dark:text-green-400 dark:bg-green-950/30 dark:border-green-800/40",
-      change: `${analytics.totalItems} unique items`,
+      change: `${analytics.totalItems} ${t('analytics.stats.uniqueItems')}`,
       changeColor: "text-green-600 dark:text-green-400",
     },
     {
-      title: "Total Units",
+      title: t('analytics.stats.totalUnits'),
       value: analytics.totalQuantity.toLocaleString(),
       icon: Package,
       color:
           "text-blue-600 bg-blue-50 border-blue-200 dark:text-blue-400 dark:bg-blue-950/30 dark:border-blue-800/40",
-      change: `Avg: ${formatCurrency(analytics.priceAnalysis.average)}`,
+      change: `${t('dashboard.stats.avg')} ${formatCurrency(analytics.priceAnalysis.average)}`,
       changeColor: "text-blue-600 dark:text-blue-400",
     },
     {
-      title: "Stock Health",
+      title: t('analytics.stats.stockHealth'),
       value: `${Math.round(
           (analytics.stockAnalysis.inStock / analytics.totalItems) * 100 || 0
       )}%`,
       icon: TrendingUp,
       color:
           "text-green-600 bg-green-50 border-green-200 dark:text-green-400 dark:bg-green-950/30 dark:border-green-800/40",
-      change: `${analytics.stockAnalysis.inStock} items healthy`,
+      change: `${analytics.stockAnalysis.inStock} ${t('analytics.stats.itemsHealthy')}`,
       changeColor: "text-green-600 dark:text-green-400",
     },
     {
-      title: "Attention Needed",
+      title: t('analytics.stats.attentionNeeded'),
       value: (
           analytics.stockAnalysis.lowStock + analytics.stockAnalysis.outOfStock
       ).toString(),
       icon: AlertTriangle,
       color:
           "text-orange-600 bg-orange-50 border-orange-200 dark:text-orange-400 dark:bg-orange-950/30 dark:border-orange-800/40",
-      change: `${analytics.stockAnalysis.outOfStock} critical`,
+      change: `${analytics.stockAnalysis.outOfStock} ${t('analytics.stats.critical')}`,
       changeColor: "text-red-600 dark:text-red-400",
     },
   ];
@@ -221,10 +223,10 @@ export const Analytics: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-              Analytics
+              {t('analytics.title')}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mt-1">
-              Comprehensive inventory insights and trends
+              {t('analytics.subtitle')}
             </p>
           </div>
           <div className="flex items-center space-x-3">
@@ -234,7 +236,7 @@ export const Analytics: React.FC = () => {
                 onChange={(e) => setCategoryFilter(e.target.value)}
                 className="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
             >
-              <option value="">All Categories</option>
+              <option value="">{t('analytics.allCategories')}</option>
               {categories.map((c) => (
                   <option key={c.id} value={c.name}>
                     {c.name}
@@ -246,10 +248,10 @@ export const Analytics: React.FC = () => {
                 onChange={(e) => setTimeFilter(e.target.value)}
                 className="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
             >
-              <option value="all">All Time</option>
-              <option value="7d">Last 7 Days</option>
-              <option value="30d">Last 30 Days</option>
-              <option value="90d">Last 90 Days</option>
+              <option value="all">{t('analytics.allTime')}</option>
+              <option value="7d">{t('analytics.last7Days')}</option>
+              <option value="30d">{t('analytics.last30Days')}</option>
+              <option value="90d">{t('analytics.last90Days')}</option>
             </select>
           </div>
         </div>
@@ -290,7 +292,7 @@ export const Analytics: React.FC = () => {
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              Category Performance
+              {t('analytics.categoryPerformance.title')}
             </h3>
             <BarChart3 className="w-5 h-5 text-gray-400 dark:text-gray-500" />
           </div>
@@ -313,8 +315,8 @@ export const Analytics: React.FC = () => {
                     />
                   </div>
                   <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-                    <span>{cat.items} items</span>
-                    <span>{cat.quantity} units</span>
+                    <span>{cat.items} {t('analytics.categoryPerformance.items')}</span>
+                    <span>{cat.quantity} {t('analytics.categoryPerformance.units')}</span>
                   </div>
                 </div>
             ))}
@@ -325,7 +327,7 @@ export const Analytics: React.FC = () => {
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              Supplier Distribution
+              {t('analytics.supplierDistribution.title')}
             </h3>
             <TrendingUp className="w-5 h-5 text-gray-400 dark:text-gray-500" />
           </div>
@@ -345,7 +347,7 @@ export const Analytics: React.FC = () => {
                         {sup.supplier}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                        {sup.items} items • {sup.quantity} units
+                        {sup.items} {t('analytics.supplierDistribution.items')} • {sup.quantity} {t('analytics.supplierDistribution.units')}
                       </p>
                     </div>
                   </div>
@@ -366,33 +368,33 @@ export const Analytics: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             {
-              label: "In Stock",
+              label: t('analytics.stockStatus.inStock'),
               color:
                   "text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800/40",
               value: analytics.stockAnalysis.inStock,
               subtitle: `${Math.round(
                   (analytics.stockAnalysis.inStock / analytics.totalItems) * 100 || 0
-              )}% of inventory`,
+              )}${t('analytics.stockStatus.ofInventory')}`,
             },
             {
-              label: "Low Stock",
+              label: t('analytics.stockStatus.lowStock'),
               color:
                   "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800/40",
               value: analytics.stockAnalysis.lowStock,
               subtitle: `${Math.round(
                   (analytics.stockAnalysis.lowStock / analytics.totalItems) * 100 ||
                   0
-              )}% needs reorder`,
+              )}${t('analytics.stockStatus.needsReorder')}`,
             },
             {
-              label: "Out of Stock",
+              label: t('analytics.stockStatus.outOfStock'),
               color:
                   "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800/40",
               value: analytics.stockAnalysis.outOfStock,
               subtitle: `${Math.round(
                   (analytics.stockAnalysis.outOfStock / analytics.totalItems) *
                   100 || 0
-              )}% critical`,
+              )}${t('analytics.stockStatus.critical')}`,
             },
           ].map((stat) => (
               <div
@@ -410,7 +412,7 @@ export const Analytics: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800/40">
             <p className="text-sm font-medium text-blue-700 dark:text-blue-400">
-              Highest Priced Item
+              {t('analytics.priceAnalysis.highestPricedItem')}
             </p>
             <p className="text-lg font-bold text-blue-900 dark:text-blue-100">
               {analytics.priceAnalysis.highest?.name || "N/A"}
@@ -421,7 +423,7 @@ export const Analytics: React.FC = () => {
           </div>
           <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800/40">
             <p className="text-sm font-medium text-green-700 dark:text-green-400">
-              Average Unit Price
+              {t('analytics.priceAnalysis.averageUnitPrice')}
             </p>
             <p className="text-lg font-bold text-green-900 dark:text-green-100">
               {formatCurrency(analytics.priceAnalysis.average)}
@@ -429,7 +431,7 @@ export const Analytics: React.FC = () => {
           </div>
           <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800/40">
             <p className="text-sm font-medium text-purple-700 dark:text-purple-400">
-              Lowest Priced Item
+              {t('analytics.priceAnalysis.lowestPricedItem')}
             </p>
             <p className="text-lg font-bold text-purple-900 dark:text-purple-100">
               {analytics.priceAnalysis.lowest?.name || "N/A"}

@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {AlertCircle, Eye, EyeOff, Lock, Mail, Package} from "lucide-react";
 import {GROUP_MAP} from "../types/group.ts";
 import {ConfirmationModal} from "./ConfirmationModal.tsx";
+import { useTranslation } from 'react-i18next';
 
 interface SignUpFormProps {
     onSignUp: (credentials: SignupCredentials) => Promise<{success: boolean; error?: string}>;
@@ -11,6 +12,7 @@ interface SignUpFormProps {
 }
 
 export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSwitchToLogin}) => {
+    const { t } = useTranslation();
     const [credentials, setCredentials] = useState<SignupCredentials>({
         username: '',
         email: '',
@@ -32,12 +34,12 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
         console.log('Credentials: ',credentials);
 
         if (!credentials.email.trim() || !credentials.password.trim() || credentials.group === -1) {
-            setError("Please fill all fields");
+            setError(t('signup.fillFields'));
             return;
         }
 
         if(credentials.password !== credentials.confirm_password){
-            setError('Passwords don\'t match');
+            setError(t('signup.passwordsDontMatch'));
             return;
         }
 
@@ -57,8 +59,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4 shadow-lg">
                         <Package className="w-8 h-8 text-white" />
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
-                    <p className="text-gray-600">Sign up to start managing inventory</p>
+                    <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('signup.title')}</h1>
+                    <p className="text-gray-600">{t('signup.subtitle')}</p>
                 </div>
 
                 {/* Form */}
@@ -90,7 +92,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
 
                         {/* Email */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">{t('signup.email')}</label>
                             <div className="relative">
                                 <Mail
                                     className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"/>
@@ -104,14 +106,14 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
                                         username: e.target.value
                                     })}
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                    placeholder="Enter your email"
+                                    placeholder={t('signup.emailPlaceholder')}
                                 />
                             </div>
                         </div>
 
                         {/* Role Selection */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">{t('signup.role')}</label>
                             <select
                                 required
                                 value={
@@ -127,7 +129,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
                                 }
                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                             >
-                                <option value="">Select a role</option>
+                                <option value="">{t('signup.selectRole')}</option>
                                 {Object.keys(GROUP_MAP).map((role) => (
                                     <option key={role} value={role}>
                                         {role}
@@ -140,7 +142,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
 
                         {/* Password */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">{t('signup.password')}</label>
                             <div className="relative">
                                 <Lock
                                     className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"/>
@@ -150,7 +152,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
                                     value={credentials.password}
                                     onChange={(e) => setCredentials({...credentials, password: e.target.value})}
                                     className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                    placeholder="Enter password"
+                                    placeholder={t('signup.passwordPlaceholder')}
                                 />
                                 <button
                                     type="button"
@@ -164,14 +166,14 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
 
                         {/* Confirm Password */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">{t('signup.confirmPassword')}</label>
                             <input
                                 type="password"
                                 required
                                 value={credentials.confirm_password}
                                 onChange={(e) => setCredentials({...credentials, confirm_password: e.target.value})}
                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                placeholder="Re-enter password"
+                                placeholder={t('signup.confirmPasswordPlaceholder')}
                             />
                         </div>
 
@@ -184,18 +186,18 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
                                 <div
                                     className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"/>
                             ) : (
-                                "Sign Up"
+                                t('signup.signUp')
                             )}
                         </button>
 
                         <p className="text-center text-sm text-gray-600">
-                            Already have an account?{" "}
+                            {t('signup.hasAccount')}{" "}
                             <button
                                 type="button"
                                 onClick={onSwitchToLogin}
                                 className="text-blue-600 hover:text-blue-800 font-medium"
                             >
-                                Sign in
+                                {t('signup.signIn')}
                             </button>
                         </p>
                     </form>
@@ -206,7 +208,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({onSignUp, isLoading, onSw
                             setShowSuccessModal(false);
                             onSwitchToLogin();
                         }}
-                        message = "Your account has been successfully created!."
+                        message = {t('signup.successMessage')}
                     />
 
                 </div>

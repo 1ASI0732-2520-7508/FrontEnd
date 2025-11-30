@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Supplier, SupplierFormData } from '../types/supplier';
+import { useTranslation } from 'react-i18next';
 
 interface SupplierModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
   onSave, 
   supplier 
 }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<SupplierFormData>({
     supplierName: '',
     companyName: '',
@@ -47,21 +49,21 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
     const newErrors: Partial<SupplierFormData> = {};
 
     if (!formData.supplierName.trim()) {
-      newErrors.supplierName = 'Supplier name is required';
+      newErrors.supplierName = t('supplierModal.errors.supplierNameRequired');
     }
 
     if (!formData.companyName.trim()) {
-      newErrors.companyName = 'Company name is required';
+      newErrors.companyName = t('supplierModal.errors.companyNameRequired');
     }
 
     if (!formData.ruc.trim()) {
-      newErrors.ruc = 'RUC is required';
+      newErrors.ruc = t('supplierModal.errors.rucRequired');
     } else if (!/^\d{11}$/.test(formData.ruc)) {
-      newErrors.ruc = 'RUC must be 11 digits';
+      newErrors.ruc = t('supplierModal.errors.rucInvalid');
     }
 
     if (!formData.address.trim()) {
-      newErrors.address = 'Address is required';
+      newErrors.address = t('supplierModal.errors.addressRequired');
     }
 
     setErrors(newErrors);
@@ -84,7 +86,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
       <div className="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h3 className="text-xl font-bold text-gray-900">
-            {supplier ? 'Edit Supplier' : 'Add New Supplier'}
+            {supplier ? t('supplierModal.editSupplier') : t('supplierModal.addSupplier')}
           </h3>
           <button
             onClick={onClose}
@@ -98,7 +100,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Supplier Name *
+                {t('supplierModal.supplierName')}
               </label>
               <input
                 type="text"
@@ -107,7 +109,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                   errors.supplierName ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Enter supplier name"
+                placeholder={t('supplierModal.supplierNamePlaceholder')}
               />
               {errors.supplierName && (
                 <p className="text-red-600 text-sm mt-1">{errors.supplierName}</p>
@@ -116,7 +118,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Company Name *
+                {t('supplierModal.companyName')}
               </label>
               <input
                 type="text"
@@ -125,7 +127,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                   errors.companyName ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Enter company name"
+                placeholder={t('supplierModal.companyNamePlaceholder')}
               />
               {errors.companyName && (
                 <p className="text-red-600 text-sm mt-1">{errors.companyName}</p>
@@ -134,7 +136,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                RUC *
+                {t('supplierModal.ruc')}
               </label>
               <input
                 type="text"
@@ -144,7 +146,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                   errors.ruc ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Enter 11-digit RUC"
+                placeholder={t('supplierModal.rucPlaceholder')}
               />
               {errors.ruc && (
                 <p className="text-red-600 text-sm mt-1">{errors.ruc}</p>
@@ -153,7 +155,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
 
             <div className="md:col-span-1">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Address *
+                {t('supplierModal.address')}
               </label>
               <textarea
                 value={formData.address}
@@ -162,7 +164,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                   errors.address ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Enter complete address"
+                placeholder={t('supplierModal.addressPlaceholder')}
               />
               {errors.address && (
                 <p className="text-red-600 text-sm mt-1">{errors.address}</p>
@@ -176,13 +178,13 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
               onClick={onClose}
               className="px-6 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
             >
-              Cancel
+              {t('supplierModal.cancel')}
             </button>
             <button
               type="submit"
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
             >
-              {supplier ? 'Update Supplier' : 'Add Supplier'}
+              {supplier ? t('supplierModal.update') : t('supplierModal.add')}
             </button>
           </div>
         </form>
