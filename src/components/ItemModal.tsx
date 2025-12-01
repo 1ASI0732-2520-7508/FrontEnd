@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { InventoryItem } from '../types/inventory';
 import { categories } from '../data/mockData';
+import { useTranslation } from 'react-i18next';
 
 interface ItemModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface ItemModalProps {
 }
 
 export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, item }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     category: '',
@@ -58,7 +60,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, i
       <div className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transition-colors duration-300">
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-            {item ? 'Edit Item' : 'Add New Item'}
+            {item ? t('inventory.modal.editItem') : t('inventory.modal.addItem')}
           </h3>
           <button
             onClick={onClose}
@@ -72,7 +74,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, i
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Item Name
+                {t('inventory.modal.itemName')}
               </label>
               <input
                 type="text"
@@ -80,13 +82,13 @@ export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, i
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                placeholder="Enter item name"
+                placeholder={t('inventory.modal.itemNamePlaceholder')}
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Category
+                {t('inventory.modal.category')}
               </label>
               <select
                 required
@@ -104,7 +106,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, i
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Current Quantity
+                {t('inventory.modal.currentQuantity')}
               </label>
               <input
                 type="number"
@@ -119,7 +121,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, i
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Minimum Stock Level
+                {t('inventory.modal.minStock')}
               </label>
               <input
                 type="number"
@@ -134,7 +136,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, i
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Unit Price
+                {t('inventory.modal.unitPrice')}
               </label>
               <input
                 type="number"
@@ -150,7 +152,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, i
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Supplier
+                {t('inventory.modal.supplier')}
               </label>
               <input
                 type="text"
@@ -158,21 +160,21 @@ export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, i
                 value={formData.supplier}
                 onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                placeholder="Enter supplier name"
+                placeholder={t('inventory.modal.supplierPlaceholder')}
               />
             </div>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Description
+              {t('inventory.modal.description')}
             </label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-              placeholder="Enter item description (optional)"
+              placeholder={t('inventory.modal.descriptionPlaceholder')}
             />
           </div>
 
@@ -182,13 +184,13 @@ export const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose, onSave, i
               onClick={onClose}
               className="px-6 py-2 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 font-medium"
             >
-              Cancel
+              {t('inventory.modal.cancel')}
             </button>
             <button
               type="submit"
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
             >
-              {item ? 'Update Item' : 'Add Item'}
+              {item ? t('inventory.modal.update') : t('inventory.modal.add')}
             </button>
           </div>
         </form>

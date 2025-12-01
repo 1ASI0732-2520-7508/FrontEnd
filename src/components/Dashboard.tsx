@@ -9,6 +9,7 @@ import {Supplier} from "../types/supplier.ts";
 import {Category} from "../types/inventory.ts";
 import { formatCurrency, getStockStatus } from '../utils/stockUtils';
 import {exportToExcel, exportToPDF} from '../utils/exportUtils';
+import { useTranslation } from 'react-i18next';
 
 interface DashboardProps {
   accessToken: string;
@@ -27,6 +28,7 @@ interface SupplierMetrics {
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const Dashboard: React.FC = () => {
+  const { t } = useTranslation();
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -153,35 +155,35 @@ export const Dashboard: React.FC = () => {
 
   const statCards = [
     {
-      title: 'Total Items',
+      title: t('dashboard.stats.totalItems'),
       value: dashboardStats.totalItems.toString(),
       icon: Package,
       color: 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/50',
-      change: `${dashboardStats.totalQuantity} units`,
+      change: `${dashboardStats.totalQuantity} ${t('dashboard.stats.units')}`,
       changeColor: 'text-blue-600 dark:text-blue-400',
     },
     {
-      title: 'Total Value',
+      title: t('dashboard.stats.totalValue'),
       value: formatCurrency(dashboardStats.totalValue),
       icon: DollarSign,
       color: 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-950/30 border-green-200 dark:border-green-800/50',
-      change: `Avg: ${formatCurrency(dashboardStats.averagePrice)}`,
+      change: `${t('dashboard.stats.avg')} ${formatCurrency(dashboardStats.averagePrice)}`,
       changeColor: 'text-green-600 dark:text-green-400',
     },
     {
-      title: 'In Stock',
+      title: t('dashboard.stats.inStock'),
       value: dashboardStats.inStockItems.toString(),
       icon: TrendingUp,
       color: 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-950/30 border-green-200 dark:border-green-800/50',
-      change: 'Healthy levels',
+      change: t('dashboard.stats.healthyLevels'),
       changeColor: 'text-green-600 dark:text-green-400',
     },
     {
-      title: 'Needs Attention',
+      title: t('dashboard.stats.needsAttention'),
       value: (dashboardStats.lowStockItems + dashboardStats.outOfStockItems).toString(),
       icon: AlertTriangle,
       color: 'text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800/50',
-      change: `${dashboardStats.outOfStockItems} out of stock`,
+      change: `${dashboardStats.outOfStockItems} ${t('dashboard.stats.outOfStock')}`,
       changeColor: 'text-red-600 dark:text-red-400',
     },
   ];
@@ -191,11 +193,11 @@ export const Dashboard: React.FC = () => {
         {/* Header with Supplier Filter */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h2>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t('dashboard.title')}</h2>
             <p className="text-gray-600 dark:text-gray-400 mt-1">
               {selectedSupplier
-                  ? `Analytics for ${selectedSupplier}`
-                  : "Overview of all inventory"}
+                  ? t('dashboard.subtitleSupplier', { supplier: selectedSupplier })
+                  : t('dashboard.subtitle')}
             </p>
           </div>
 
@@ -205,7 +207,7 @@ export const Dashboard: React.FC = () => {
                 className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
             >
               <Download className="w-4 h-4" />
-              <span>Export PDF</span>
+              <span>{t('dashboard.exportPDF')}</span>
             </button>
 
             <button
@@ -213,7 +215,7 @@ export const Dashboard: React.FC = () => {
                 className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
             >
               <Download className="w-4 h-4" />
-              <span>Export Excel</span>
+              <span>{t('dashboard.exportExcel')}</span>
             </button>
 
             <Filter className="w-5 h-5 text-gray-400 dark:text-gray-500" />
@@ -222,7 +224,7 @@ export const Dashboard: React.FC = () => {
                 onChange={(e) => setSelectedSupplier(e.target.value)}
                 className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
             >
-              <option value="">All Suppliers</option>
+              <option value="">{t('dashboard.allSuppliers')}</option>
               {suppliers.map((sup) => (
                   <option key={sup.id} value={sup.supplierName}>
                     {sup.supplierName}
@@ -268,7 +270,7 @@ export const Dashboard: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                Category Distribution
+                {t('dashboard.categoryDistribution.title')}
               </h3>
               <BarChart3 className="w-5 h-5 text-gray-400 dark:text-gray-500" />
             </div>
@@ -310,7 +312,7 @@ export const Dashboard: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                Top Items by Value
+                {t('dashboard.topItems.title')}
               </h3>
               <TrendingUp className="w-5 h-5 text-gray-400 dark:text-gray-500" />
             </div>
@@ -331,7 +333,7 @@ export const Dashboard: React.FC = () => {
                           {item.name}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {item.quantity} units × {formatCurrency(item.price)}
+                          {item.quantity} {t('dashboard.stats.units')} × {formatCurrency(item.price)}
                         </p>
                       </div>
                     </div>
@@ -354,7 +356,7 @@ export const Dashboard: React.FC = () => {
             <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-300">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  Supplier Performance
+                  {t('dashboard.supplierPerformance.title')}
                 </h3>
                 <Users className="w-5 h-5 text-gray-400 dark:text-gray-500" />
               </div>
@@ -364,22 +366,22 @@ export const Dashboard: React.FC = () => {
                   <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
-                      Supplier
+                      {t('dashboard.supplierPerformance.supplier')}
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
-                      Items
+                      {t('dashboard.supplierPerformance.items')}
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
-                      Total Value
+                      {t('dashboard.supplierPerformance.totalValue')}
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
-                      Categories
+                      {t('dashboard.supplierPerformance.categories')}
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
-                      Issues
+                      {t('dashboard.supplierPerformance.issues')}
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
-                      Action
+                      {t('dashboard.supplierPerformance.action')}
                     </th>
                   </tr>
                   </thead>
@@ -419,18 +421,18 @@ export const Dashboard: React.FC = () => {
                           <div className="flex space-x-2">
                             {sup.lowStockItems > 0 && (
                                 <span className="px-2 py-1 bg-orange-100 dark:bg-orange-950/30 text-orange-700 dark:text-orange-400 text-xs rounded-full">
-                          {sup.lowStockItems} low
+                          {sup.lowStockItems} {t('dashboard.supplierPerformance.low')}
                         </span>
                             )}
                             {sup.outOfStockItems > 0 && (
                                 <span className="px-2 py-1 bg-red-100 dark:bg-red-950/30 text-red-700 dark:text-red-400 text-xs rounded-full">
-                          {sup.outOfStockItems} out
+                          {sup.outOfStockItems} {t('dashboard.supplierPerformance.out')}
                         </span>
                             )}
                             {sup.lowStockItems === 0 &&
                                 sup.outOfStockItems === 0 && (
                                     <span className="px-2 py-1 bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400 text-xs rounded-full">
-                            Good
+                            {t('dashboard.supplierPerformance.good')}
                           </span>
                                 )}
                           </div>
@@ -441,7 +443,7 @@ export const Dashboard: React.FC = () => {
                               className="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
                           >
                             <Eye className="w-4 h-4" />
-                            <span className="text-sm">View</span>
+                            <span className="text-sm">{t('dashboard.view')}</span>
                           </button>
                         </td>
                       </tr>

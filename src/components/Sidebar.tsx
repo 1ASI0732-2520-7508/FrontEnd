@@ -1,6 +1,7 @@
 import React from 'react';
 import { Package, BarChart3, Settings, Users, TrendingUp, AlertTriangle } from 'lucide-react';
 import { User } from '../types/auth';
+import { useTranslation } from 'react-i18next';
 
 interface SidebarProps {
   activeTab: string;
@@ -8,16 +9,22 @@ interface SidebarProps {
   user: User;
 }
 
-const menuItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-  { id: 'inventory', label: 'Inventory', icon: Package },
-  { id: 'analytics', label: 'Analytics', icon: TrendingUp },
-  { id: 'alerts', label: 'Alerts', icon: AlertTriangle },
-  { id: 'suppliers', label: 'Suppliers', icon: Users },
-  { id: 'settings', label: 'Settings', icon: Settings },
+type MenuItem = {
+  id: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
+
+const getMenuItems = (t: (key: string) => string): MenuItem[] => [
+  { id: 'dashboard', label: t('sidebar.dashboard'), icon: BarChart3 },
+  { id: 'inventory', label: t('sidebar.inventory'), icon: Package },
+  { id: 'analytics', label: t('sidebar.analytics'), icon: TrendingUp },
+  { id: 'alerts', label: t('sidebar.alerts'), icon: AlertTriangle },
+  { id: 'suppliers', label: t('sidebar.suppliers'), icon: Users },
+  { id: 'settings', label: t('sidebar.settings'), icon: Settings },
 ];
 
-const getRoleBasedMenuItems = (group: string) => {
+const getRoleBasedMenuItems = (group: string, menuItems: MenuItem[]) => {
   switch (group) {
     case 'Admin':
       return menuItems; // Admin sees all tabs
@@ -35,7 +42,9 @@ const getRoleBasedMenuItems = (group: string) => {
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }) => {
-  const visibleMenuItems = getRoleBasedMenuItems(user.group);
+  const { t } = useTranslation();
+  const menuItems = getMenuItems(t);
+  const visibleMenuItems = getRoleBasedMenuItems(user.group, menuItems);
 
   return (
     <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full transition-colors duration-300">
@@ -48,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }
         </div>
         <div className="mt-2">
           <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-medium">
-            {user.group} Portal
+            {user.group} {t('sidebar.portal')}
           </span>
         </div>
       </div>

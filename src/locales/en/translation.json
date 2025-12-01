@@ -22,7 +22,277 @@
     "lowStockChange": "Needs attention",
     "outOfStock": "Out of Stock",
     "outOfStockChange": "Urgent"
+  },
+  "header": {
+    "title": "Inventory Management",
+    "searchPlaceholder": "Search inventory...",
+    "addItem": "Add Item",
+    "logout": "Logout"
+  },
+  "sidebar": {
+    "inventory": "Inventory",
+    "dashboard": "Dashboard",
+    "analytics": "Analytics",
+    "alerts": "Alerts",
+    "suppliers": "Suppliers",
+    "settings": "Settings",
+    "portal": "Portal"
+  },
+  "login": {
+    "title": "InventoryPro",
+    "subtitle": "Sign in to manage your inventory",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "fillFields": "Please fill in all fields",
+    "invalidCredentials": "Invalid credentials"
+  },
+  "signup": {
+    "title": "Create Account",
+    "subtitle": "Sign up to start managing inventory",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "role": "Role",
+    "selectRole": "Select a role",
+    "password": "Password",
+    "passwordPlaceholder": "Enter password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Re-enter password",
+    "signUp": "Sign Up",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "fillFields": "Please fill all fields",
+    "passwordsDontMatch": "Passwords don't match",
+    "successMessage": "Your account has been successfully created!."
+  },
+  "inventory": {
+    "table": {
+      "item": "Item",
+      "category": "Category",
+      "stock": "Stock",
+      "price": "Price",
+      "supplier": "Supplier",
+      "lastUpdated": "Last Updated",
+      "actions": "Actions",
+      "units": "units",
+      "noItems": "No items found",
+      "noItemsSubtitle": "Start by adding your first inventory item"
+    },
+    "modal": {
+      "editItem": "Edit Item",
+      "addItem": "Add New Item",
+      "itemName": "Item Name",
+      "itemNamePlaceholder": "Enter item name",
+      "category": "Category",
+      "currentQuantity": "Current Quantity",
+      "minStock": "Minimum Stock Level",
+      "unitPrice": "Unit Price",
+      "supplier": "Supplier",
+      "supplierPlaceholder": "Enter supplier name",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter item description (optional)",
+      "cancel": "Cancel",
+      "update": "Update Item",
+      "add": "Add Item"
+    },
+    "delete": {
+      "title": "Delete \"{{name}}\"?",
+      "message": "This action cannot be undone. The item will be permanently removed from your inventory.",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "confirm": "Are you sure?"
+    }
+  },
+  "filter": {
+    "filters": "Filters:",
+    "category": "Category:",
+    "allCategories": "All Categories",
+    "stockStatus": "Stock Status:",
+    "allItems": "All Items",
+    "inStock": "In Stock",
+    "lowStock": "Low Stock",
+    "outOfStock": "Out of Stock",
+    "sortBy": "Sort by:",
+    "name": "Name",
+    "quantity": "Quantity",
+    "price": "Price",
+    "lastUpdated": "Last Updated"
+  },
+  "otp": {
+    "title": "Verify your email",
+    "description": "We'll email a 6-digit code to {{email}}. Enter it here to continue.",
+    "sendCode": "Send code",
+    "sending": "Sending…",
+    "verificationCode": "Verification code",
+    "codePlaceholder": "Enter 6-digit code",
+    "verify": "Verify",
+    "verifying": "Verifying…",
+    "resend": "Resend",
+    "resendWait": "Resend ({{seconds}}s)",
+    "wait": "Wait {{seconds}}s",
+    "expires": "Code expires in {{minutes}} minutes.",
+    "cancel": "Cancel",
+    "error": "Couldn't send the verification email. Please try again",
+    "expired": "Code expired. Send a new one.",
+    "mismatch": "Email mismatch. Start over.",
+    "noChallenge": "No code found. Send a new one.",
+    "invalid": "Invalid code. Check your inbox."
+  },
+  "supplierModal": {
+    "editSupplier": "Edit Supplier",
+    "addSupplier": "Add New Supplier",
+    "supplierName": "Supplier Name *",
+    "supplierNamePlaceholder": "Enter supplier name",
+    "companyName": "Company Name *",
+    "companyNamePlaceholder": "Enter company name",
+    "ruc": "RUC *",
+    "rucPlaceholder": "Enter 11-digit RUC",
+    "address": "Address *",
+    "addressPlaceholder": "Enter complete address",
+    "cancel": "Cancel",
+    "update": "Update Supplier",
+    "add": "Add Supplier",
+    "errors": {
+      "supplierNameRequired": "Supplier name is required",
+      "companyNameRequired": "Company name is required",
+      "rucRequired": "RUC is required",
+      "rucInvalid": "RUC must be 11 digits",
+      "addressRequired": "Address is required"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of all inventory",
+    "subtitleSupplier": "Analytics for {{supplier}}",
+    "supplierFilter": "Filter by Supplier:",
+    "allSuppliers": "All Suppliers",
+    "exportPDF": "Export PDF",
+    "exportExcel": "Export Excel",
+    "view": "View",
+    "stats": {
+      "totalItems": "Total Items",
+      "totalValue": "Total Value",
+      "inStock": "In Stock",
+      "needsAttention": "Needs Attention",
+      "units": "units",
+      "avg": "Avg:",
+      "healthyLevels": "Healthy levels",
+      "outOfStock": "out of stock"
+    },
+    "categoryDistribution": {
+      "title": "Category Distribution"
+    },
+    "topItems": {
+      "title": "Top Items by Value"
+    },
+    "supplierPerformance": {
+      "title": "Supplier Performance",
+      "supplier": "Supplier",
+      "items": "Items",
+      "totalValue": "Total Value",
+      "categories": "Categories",
+      "issues": "Issues",
+      "action": "Action",
+      "low": "low",
+      "out": "out",
+      "good": "Good"
+    }
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Comprehensive inventory insights and trends",
+    "allCategories": "All Categories",
+    "allTime": "All Time",
+    "last7Days": "Last 7 Days",
+    "last30Days": "Last 30 Days",
+    "last90Days": "Last 90 Days",
+    "stats": {
+      "totalPortfolioValue": "Total Portfolio Value",
+      "totalUnits": "Total Units",
+      "stockHealth": "Stock",
+      "attentionNeeded": "Attention Needed",
+      "uniqueItems": "unique items",
+      "itemsHealthy": "items healthy",
+      "critical": "critical"
+    },
+    "categoryPerformance": {
+      "title": "Category Performance",
+      "items": "items",
+      "units": "units"
+    },
+    "supplierDistribution": {
+      "title": "Supplier Distribution",
+      "items": "items",
+      "units": "units"
+    },
+    "stockStatus": {
+      "inStock": "In Stock",
+      "lowStock": "Low Stock",
+      "outOfStock": "Out of Stock",
+      "ofInventory": "% of inventory",
+      "needsReorder": "% needs reorder",
+      "critical": "% critical"
+    },
+    "priceAnalysis": {
+      "highestPricedItem": "Highest Priced Item",
+      "averageUnitPrice": "Average Unit Price",
+      "lowestPricedItem": "Lowest Priced Item"
+    }
+  },
+  "alerts": {
+    "title": "Alerts & Notifications",
+    "filters": {
+      "all": "All",
+      "critical": "Critical",
+      "warning": "Warning",
+      "info": "Info",
+      "allCategories": "All Categories",
+      "stock": "Stock",
+      "system": "System",
+      "supplier": "Supplier"
+    },
+    "types": {
+      "outOfStock": "Out of Stock",
+      "lowStock": "Low Stock Warning",
+      "systemBackup": "System Backup Completed",
+      "systemUpdate": "System Update Available",
+      "supplierDelay": "Supplier Delivery Delay"
+    },
+    "messages": {
+      "outOfStock": "{{name}} is completely out of stock and needs immediate restocking.",
+      "lowStock": "{{name}} is running low ({{quantity}} units remaining, minimum: {{minStock}}).",
+      "systemBackup": "Daily inventory backup completed successfully at 2:00 AM.",
+      "systemUpdate": "A new version of the inventory system is available for update.",
+      "supplierDelay": "{{supplier}} has reported a 2-day delay in their next delivery schedule."
+    },
+    "actions": {
+      "acknowledge": "Acknowledge",
+      "acknowledged": "Acknowledged",
+      "markAllRead": "Mark All as Read",
+      "clearAll": "Clear All"
+    },
+    "noAlerts": "No alerts to display",
+    "noAlertsSubtitle": "All systems are running smoothly"
+  },
+  "app": {
+    "loading": "Loading...",
+    "settings": {
+      "title": "Settings",
+      "underDevelopment": "This section is under development and will be available soon."
+    }
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
   }
-
-
 }

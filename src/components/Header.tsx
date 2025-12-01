@@ -3,6 +3,7 @@ import { Search, Plus, LogOut, User } from 'lucide-react';
 import { User as UserType } from '../types/auth';
 import {LanguageSwitcher} from "../shared/components/LanguageSwitcher.tsx";
 import ThemeSwitcher from "../shared/components/ThemeSwitcher.tsx";
+import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   onAddItem: () => void;
@@ -13,17 +14,19 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onAddItem, searchTerm, onSearchChange, user, onLogout }) => {
+  const { t } = useTranslation();
+
   return (
     <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-8 py-4 transition-colors duration-300">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Inventory Management</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('header.title')}</h2>
           <div className="relative">
             {searchTerm !== undefined && onSearchChange && (
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />) &&
                 (<input
               type="text"
-              placeholder="Search inventory..."
+              placeholder={t('header.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
               className="pl-10 pr-4 py-2 w-80 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
@@ -52,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ onAddItem, searchTerm, onSearchC
           <button
             onClick={onLogout}
             className="p-2 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-colors duration-200"
-            title="Logout"
+            title={t('header.logout')}
           >
             <LogOut className="w-5 h-5" />
           </button>
@@ -62,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({ onAddItem, searchTerm, onSearchC
             className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
           >
             <Plus className="w-5 h-5" />
-            <span>Add Item</span>
+            <span>{t('header.addItem')}</span>
           </button>
         </div>
       </div>
