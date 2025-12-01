@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Edit2, Trash2, Package, AlertTriangle } from 'lucide-react';
 import { InventoryItem } from '../types/inventory';
 import { getStockStatus, getStockStatusColor, formatCurrency } from '../utils/stockUtils';
+import { useTranslation } from 'react-i18next';
 
 interface InventoryTableProps {
   items: InventoryItem[];
@@ -14,6 +15,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
                                                                 onEditItem,
                                                                 onDeleteItem,
                                                               }) => {
+  const { t } = useTranslation();
   const [pendingDelete, setPendingDelete] = useState<InventoryItem | null>(null);
   const cancelBtnRef = useRef<HTMLButtonElement | null>(null);
 
@@ -33,8 +35,8 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
     return (
         <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
           <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No items found</h3>
-          <p className="text-gray-500">Start by adding your first inventory item</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{t('inventory.table.noItems')}</h3>
+          <p className="text-gray-500">{t('inventory.table.noItemsSubtitle')}</p>
         </div>
     );
   }
@@ -47,25 +49,25 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
               <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Item
+                  {t('inventory.table.item')}
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Category
+                  {t('inventory.table.category')}
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Stock
+                  {t('inventory.table.stock')}
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Price
+                  {t('inventory.table.price')}
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Supplier
+                  {t('inventory.table.supplier')}
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Last Updated
+                  {t('inventory.table.lastUpdated')}
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  {t('inventory.table.actions')}
                 </th>
               </tr>
               </thead>
@@ -89,7 +91,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-gray-900">{item.quantity} units</span>
+                          <span className="text-sm font-medium text-gray-900">{item.quantity} {t('inventory.table.units')}</span>
                           <span className={`text-xs px-2 py-1 rounded-full border ${statusColor} capitalize`}>
                           {stockStatus.replace('-', ' ')}
                         </span>
@@ -152,10 +154,10 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
                   </div>
                   <div className="ml-4 text-left">
                     <h3 id="confirm-delete-title" className="text-lg font-semibold text-gray-900">
-                      Delete “{pendingDelete.name}”?
+                      {t('inventory.delete.title', { name: pendingDelete.name })}
                     </h3>
                     <p className="mt-1 text-sm text-gray-600">
-                      This action cannot be undone. The item will be permanently removed from your inventory.
+                      {t('inventory.delete.message')}
                     </p>
                   </div>
                 </div>
@@ -167,7 +169,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
                       className="inline-flex items-center rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
                       onClick={() => setPendingDelete(null)}
                   >
-                    Cancel
+                    {t('inventory.delete.cancel')}
                   </button>
                   <button
                       type="button"
@@ -178,7 +180,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
                       }}
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
-                    Delete
+                    {t('inventory.delete.delete')}
                   </button>
                 </div>
               </div>

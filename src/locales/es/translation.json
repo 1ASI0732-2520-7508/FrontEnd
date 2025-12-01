@@ -22,5 +22,277 @@
     "lowStockChange": "Requiere atención",
     "outOfStock": "Sin stock",
     "outOfStockChange": "Urgente"
+  },
+  "header": {
+    "title": "Gestión de Inventario",
+    "searchPlaceholder": "Buscar en inventario...",
+    "addItem": "Agregar Artículo",
+    "logout": "Cerrar Sesión"
+  },
+  "sidebar": {
+    "inventory": "Inventario",
+    "dashboard": "Panel",
+    "analytics": "Análisis",
+    "alerts": "Alertas",
+    "suppliers": "Proveedores",
+    "settings": "Configuración",
+    "portal": "Portal"
+  },
+  "login": {
+    "title": "InventoryPro",
+    "subtitle": "Inicia sesión para gestionar tu inventario",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "emailPlaceholder": "Ingresa tu correo electrónico",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "signIn": "Iniciar Sesión",
+    "noAccount": "¿No tienes una cuenta?",
+    "signUp": "Regístrate",
+    "fillFields": "Por favor completa todos los campos",
+    "invalidCredentials": "Credenciales inválidas"
+  },
+  "signup": {
+    "title": "Crear Cuenta",
+    "subtitle": "Regístrate para comenzar a gestionar inventario",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Ingresa tu correo electrónico",
+    "role": "Rol",
+    "selectRole": "Selecciona un rol",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Ingresa la contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "confirmPasswordPlaceholder": "Vuelve a ingresar la contraseña",
+    "signUp": "Registrarse",
+    "hasAccount": "¿Ya tienes una cuenta?",
+    "signIn": "Iniciar sesión",
+    "fillFields": "Por favor completa todos los campos",
+    "passwordsDontMatch": "Las contraseñas no coinciden",
+    "successMessage": "¡Tu cuenta ha sido creada exitosamente!."
+  },
+  "inventory": {
+    "table": {
+      "item": "Artículo",
+      "category": "Categoría",
+      "stock": "Stock",
+      "price": "Precio",
+      "supplier": "Proveedor",
+      "lastUpdated": "Última Actualización",
+      "actions": "Acciones",
+      "units": "unidades",
+      "noItems": "No se encontraron artículos",
+      "noItemsSubtitle": "Comienza agregando tu primer artículo de inventario"
+    },
+    "modal": {
+      "editItem": "Editar Artículo",
+      "addItem": "Agregar Nuevo Artículo",
+      "itemName": "Nombre del Artículo",
+      "itemNamePlaceholder": "Ingresa el nombre del artículo",
+      "category": "Categoría",
+      "currentQuantity": "Cantidad Actual",
+      "minStock": "Nivel Mínimo de Stock",
+      "unitPrice": "Precio Unitario",
+      "supplier": "Proveedor",
+      "supplierPlaceholder": "Ingresa el nombre del proveedor",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Ingresa la descripción del artículo (opcional)",
+      "cancel": "Cancelar",
+      "update": "Actualizar Artículo",
+      "add": "Agregar Artículo"
+    },
+    "delete": {
+      "title": "¿Eliminar \"{{name}}\"?",
+      "message": "Esta acción no se puede deshacer. El artículo será eliminado permanentemente de tu inventario.",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "confirm": "¿Estás seguro?"
+    }
+  },
+  "filter": {
+    "filters": "Filtros:",
+    "category": "Categoría:",
+    "allCategories": "Todas las Categorías",
+    "stockStatus": "Estado de Stock:",
+    "allItems": "Todos los Artículos",
+    "inStock": "En Stock",
+    "lowStock": "Stock Bajo",
+    "outOfStock": "Sin Stock",
+    "sortBy": "Ordenar por:",
+    "name": "Nombre",
+    "quantity": "Cantidad",
+    "price": "Precio",
+    "lastUpdated": "Última Actualización"
+  },
+  "otp": {
+    "title": "Verifica tu correo electrónico",
+    "description": "Enviaremos un código de 6 dígitos a {{email}}. Ingrésalo aquí para continuar.",
+    "sendCode": "Enviar código",
+    "sending": "Enviando…",
+    "verificationCode": "Código de verificación",
+    "codePlaceholder": "Ingresa el código de 6 dígitos",
+    "verify": "Verificar",
+    "verifying": "Verificando…",
+    "resend": "Reenviar",
+    "resendWait": "Reenviar ({{seconds}}s)",
+    "wait": "Espera {{seconds}}s",
+    "expires": "El código expira en {{minutes}} minutos.",
+    "cancel": "Cancelar",
+    "error": "No se pudo enviar el correo de verificación. Por favor intenta de nuevo",
+    "expired": "El código expiró. Envía uno nuevo.",
+    "mismatch": "El correo no coincide. Comienza de nuevo.",
+    "noChallenge": "No se encontró código. Envía uno nuevo.",
+    "invalid": "Código inválido. Revisa tu bandeja de entrada."
+  },
+  "supplierModal": {
+    "editSupplier": "Editar Proveedor",
+    "addSupplier": "Agregar Nuevo Proveedor",
+    "supplierName": "Nombre del Proveedor *",
+    "supplierNamePlaceholder": "Ingresa el nombre del proveedor",
+    "companyName": "Nombre de la Empresa *",
+    "companyNamePlaceholder": "Ingresa el nombre de la empresa",
+    "ruc": "RUC *",
+    "rucPlaceholder": "Ingresa RUC de 11 dígitos",
+    "address": "Dirección *",
+    "addressPlaceholder": "Ingresa la dirección completa",
+    "cancel": "Cancelar",
+    "update": "Actualizar Proveedor",
+    "add": "Agregar Proveedor",
+    "errors": {
+      "supplierNameRequired": "El nombre del proveedor es requerido",
+      "companyNameRequired": "El nombre de la empresa es requerido",
+      "rucRequired": "El RUC es requerido",
+      "rucInvalid": "El RUC debe tener 11 dígitos",
+      "addressRequired": "La dirección es requerida"
+    }
+  },
+  "dashboard": {
+    "title": "Panel",
+    "subtitle": "Resumen de todo el inventario",
+    "subtitleSupplier": "Análisis para {{supplier}}",
+    "supplierFilter": "Filtrar por Proveedor:",
+    "allSuppliers": "Todos los Proveedores",
+    "exportPDF": "Exportar PDF",
+    "exportExcel": "Exportar Excel",
+    "view": "Ver",
+    "stats": {
+      "totalItems": "Artículos Totales",
+      "totalValue": "Valor Total",
+      "inStock": "En Stock",
+      "needsAttention": "Requiere Atención",
+      "units": "unidades",
+      "avg": "Prom:",
+      "healthyLevels": "Niveles saludables",
+      "outOfStock": "sin stock"
+    },
+    "categoryDistribution": {
+      "title": "Distribución por Categoría"
+    },
+    "topItems": {
+      "title": "Artículos Más Valiosos"
+    },
+    "supplierPerformance": {
+      "title": "Rendimiento de Proveedores",
+      "supplier": "Proveedor",
+      "items": "Artículos",
+      "totalValue": "Valor Total",
+      "categories": "Categorías",
+      "issues": "Problemas",
+      "action": "Acción",
+      "low": "bajo",
+      "out": "sin",
+      "good": "Bien"
+    }
+  },
+  "analytics": {
+    "title": "Análisis",
+    "subtitle": "Perspectivas y tendencias completas del inventario",
+    "allCategories": "Todas las Categorías",
+    "allTime": "Todo el Tiempo",
+    "last7Days": "Últimos 7 Días",
+    "last30Days": "Últimos 30 Días",
+    "last90Days": "Últimos 90 Días",
+    "stats": {
+      "totalPortfolioValue": "Valor Total del Portafolio",
+      "totalUnits": "Unidades Totales",
+      "stockHealth": "Stock",
+      "attentionNeeded": "Atención Necesaria",
+      "uniqueItems": "artículos únicos",
+      "itemsHealthy": "artículos saludables",
+      "critical": "críticos"
+    },
+    "categoryPerformance": {
+      "title": "Rendimiento por Categoría",
+      "items": "artículos",
+      "units": "unidades"
+    },
+    "supplierDistribution": {
+      "title": "Distribución de Proveedores",
+      "items": "artículos",
+      "units": "unidades"
+    },
+    "stockStatus": {
+      "inStock": "En Stock",
+      "lowStock": "Stock Bajo",
+      "outOfStock": "Sin Stock",
+      "ofInventory": "% del inventario",
+      "needsReorder": "% necesita reorden",
+      "critical": "% crítico"
+    },
+    "priceAnalysis": {
+      "highestPricedItem": "Artículo de Mayor Precio",
+      "averageUnitPrice": "Precio Unitario Promedio",
+      "lowestPricedItem": "Artículo de Menor Precio"
+    }
+  },
+  "alerts": {
+    "title": "Alertas y Notificaciones",
+    "filters": {
+      "all": "Todas",
+      "critical": "Críticas",
+      "warning": "Advertencias",
+      "info": "Información",
+      "allCategories": "Todas las Categorías",
+      "stock": "Stock",
+      "system": "Sistema",
+      "supplier": "Proveedor"
+    },
+    "types": {
+      "outOfStock": "Sin Stock",
+      "lowStock": "Advertencia de Stock Bajo",
+      "systemBackup": "Respaldo del Sistema Completado",
+      "systemUpdate": "Actualización del Sistema Disponible",
+      "supplierDelay": "Retraso en Entrega del Proveedor"
+    },
+    "messages": {
+      "outOfStock": "{{name}} está completamente sin stock y necesita reabastecimiento inmediato.",
+      "lowStock": "{{name}} se está agotando ({{quantity}} unidades restantes, mínimo: {{minStock}}).",
+      "systemBackup": "El respaldo diario del inventario se completó exitosamente a las 2:00 AM.",
+      "systemUpdate": "Una nueva versión del sistema de inventario está disponible para actualizar.",
+      "supplierDelay": "{{supplier}} ha reportado un retraso de 2 días en su próximo programa de entrega."
+    },
+    "actions": {
+      "acknowledge": "Reconocer",
+      "acknowledged": "Reconocido",
+      "markAllRead": "Marcar Todo como Leído",
+      "clearAll": "Limpiar Todo"
+    },
+    "noAlerts": "No hay alertas para mostrar",
+    "noAlertsSubtitle": "Todos los sistemas funcionan correctamente"
+  },
+  "app": {
+    "loading": "Cargando...",
+    "settings": {
+      "title": "Configuración",
+      "underDevelopment": "Esta sección está en desarrollo y estará disponible pronto."
+    }
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "yes": "Sí",
+    "no": "No"
   }
 }

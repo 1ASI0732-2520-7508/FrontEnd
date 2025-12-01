@@ -19,8 +19,10 @@ import { useFilters } from "./hooks/useFilters.ts";
 import { Sidebar } from "./components/Sidebar.tsx";
 import { ThemeProvider } from "./ThemeProvider.tsx";
 import { SignUpForm } from "./components/SignUpForm.tsx";
+import { useTranslation } from 'react-i18next';
 
 function App() {
+  const { t } = useTranslation();
   const { user, isAuthenticated, isLoading: authLoading, login, logout, signup } = useAuth();
   const [activeTab, setActiveTab] = useState("inventory");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -88,7 +90,7 @@ function App() {
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
           <div className="text-center">
             <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-300">Loading...</p>
+            <p className="text-gray-600 dark:text-gray-300">{t('app.loading')}</p>
           </div>
         </div>
     );
@@ -174,10 +176,10 @@ function App() {
               {activeTab === "settings" && accessibleTabs.includes("settings") && (
                   <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-12 text-center transition-colors duration-300">
                     <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 capitalize">
-                      Settings
+                      {t('app.settings.title')}
                     </h3>
                     <p className="text-gray-500 dark:text-gray-400">
-                      This section is under development and will be available soon.
+                      {t('app.settings.underDevelopment')}
                     </p>
                   </div>
               )}

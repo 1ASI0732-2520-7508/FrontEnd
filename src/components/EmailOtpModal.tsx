@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { makeCode, storeChallenge, verifyChallenge, clearChallenge, EXP_MINUTES } from '../utils/opt.ts';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     email: string;
@@ -12,6 +13,7 @@ interface Props {
 const RESEND_COOLDOWN_SEC = 30;
 
 export function EmailOtpModal({ email, onVerified, onCancel }: Props) {
+    const { t } = useTranslation();
     const [sent, setSent] = useState(false);
     const [code, setCode] = useState('');
     const [error, setError] = useState('');
@@ -83,7 +85,7 @@ export function EmailOtpModal({ email, onVerified, onCancel }: Props) {
             startCooldown();
         } catch (e: any) {
             console.error(e?.status, e?.text || e);
-            setError("Couldn't send the verification email. Please try again");
+            setError(t('otp.error'));
         } finally {
             setSending(false);
         }
@@ -97,10 +99,10 @@ export function EmailOtpModal({ email, onVerified, onCancel }: Props) {
             if (!res.ok) {
                 // Provide targeted feedback
                 const reason = (res as any).reason;
-                if (reason === 'expired') setError('Code expired. Send a new one.');
-                else if (reason === 'email-mismatch') setError('Email mismatch. Start over.');
-                else if (reason === 'no-challenge') setError('No code found. Send a new one.');
-                else setError('Invalid code. Check your inbox.');
+                if (reason === 'expired') setError(t('otp.expired'));
+                else if (reason === 'email-mismatch') setError(t('otp.mismatch'));
+                else if (reason === 'no-challenge') setError(t('otp.noChallenge'));
+                else setError(t('otp.invalid'));
                 return;
             }
             clearChallenge();
@@ -121,31 +123,31 @@ export function EmailOtpModal({ email, onVerified, onCancel }: Props) {
     return (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm grid place-items-center p-4">
             <div className="w-full max-w-sm bg-white rounded-2xl shadow-xl border border-gray-100 p-6 space-y-4">
-                <h3 className="text-lg font-semibold">Verify your email</h3>
+                <h3 className="text-lg font-semibold">{t('otp.title')}</h3>
 
                 {!sent ? (
                     <>
                         <p className="text-sm text-gray-600">
-                            We’ll email a 6-digit code to <b>{email}</b>. Enter it here to continue.
+                            {t('otp.description', { email })}
                         </p>
                         <button
                             onClick={sendCode}
                             disabled={sending}
                             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                         >
-                            {sending ? 'Sending…' : 'Send code'}
+                            {sending ? t('otp.sending') : t('otp.sendCode')}
                         </button>
                     </>
                 ) : (
                     <>
-                        <label className="block text-sm font-medium text-gray-700">Verification code</label>
+                        <label className="block text-sm font-medium text-gray-700">{t('otp.verificationCode')}</label>
                         <input
                             inputMode="numeric"
                             maxLength={6}
                             value={code}
                             onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
                             className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            placeholder="Enter 6-digit code"
+                            placeholder={t('otp.codePlaceholder')}
                             autoFocus
                         />
 
@@ -155,21 +157,21 @@ export function EmailOtpModal({ email, onVerified, onCancel }: Props) {
                                 disabled={verifying || code.length !== 6}
                                 className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                             >
-                                {verifying ? 'Verifying…' : 'Verify'}
+                                {verifying ? t('otp.verifying') : t('otp.verify')}
                             </button>
 
                             <button
                                 onClick={sendCode}
                                 disabled={sending || cooldown > 0}
                                 className="px-3 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50"
-                                title={cooldown > 0 ? `Wait ${cooldown}s` : 'Resend'}
+                                title={cooldown > 0 ? t('otp.wait', { seconds: cooldown }) : t('otp.resend')}
                             >
-                                {cooldown > 0 ? `Resend (${cooldown}s)` : 'Resend'}
+                                {cooldown > 0 ? t('otp.resendWait', { seconds: cooldown }) : t('otp.resend')}
                             </button>
                         </div>
 
                         <p className="text-xs text-gray-500">
-                            Code expires in {EXP_MINUTES} minutes.
+                            {t('otp.expires', { minutes: EXP_MINUTES })}
                         </p>
                     </>
                 )}
@@ -177,7 +179,7 @@ export function EmailOtpModal({ email, onVerified, onCancel }: Props) {
                 {error && <p className="text-sm text-red-600">{error}</p>}
 
                 <button onClick={onCancel} className="text-sm text-gray-500 underline">
-                    Cancel
+                    {t('otp.cancel')}
                 </button>
             </div>
         </div>

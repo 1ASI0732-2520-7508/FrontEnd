@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, Package, Mail, Lock, AlertCircle } from 'lucide-react';
 import { LoginCredentials } from '../types/auth';
 import {EmailOtpModal} from "./EmailOtpModal.tsx";
+import { useTranslation } from 'react-i18next';
 
 interface LoginFormProps {
   onLogin: (credentials: LoginCredentials) => Promise<{ success: boolean; error?: string }>;
@@ -11,6 +12,7 @@ interface LoginFormProps {
 
 
 export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading, onSwitchToSignup}) => {
+  const { t } = useTranslation();
   const [credentials, setCredentials] = useState<LoginCredentials>({
     username: '',
     password: '',
@@ -26,7 +28,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading, onSwit
     setError('');
 
     if (!credentials.username || !credentials.password) {
-      setError('Please fill in all fields');
+      setError(t('login.fillFields'));
+      return;
+    }
+
+    // Skip OTP if VITE_SKIP_OTP is enabled (development only)
+    const skipOtp = import.meta.env.VITE_SKIP_OTP === 'true';
+    if (skipOtp) {
+      const result = await onLogin(credentials);
+      if(!result.success && result.error) setError(result.error);
       return;
     }
 
@@ -49,8 +59,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading, onSwit
           <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4 shadow-lg">
             <Package className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">InventoryPro</h1>
-          <p className="text-gray-600">Sign in to manage your inventory</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('login.title')}</h1>
+          <p className="text-gray-600">{t('login.subtitle')}</p>
         </div>
 
         {/* Login Form */}
@@ -65,7 +75,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading, onSwit
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
+                {t('login.email')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"/>
@@ -75,14 +85,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading, onSwit
                     value={credentials.username}
                     onChange={(e) => setCredentials({...credentials, username: e.target.value})}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter your email"
+                    placeholder={t('login.emailPlaceholder')}
                 />
               </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                {t('login.password')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"/>
@@ -92,7 +102,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading, onSwit
                     value={credentials.password}
                     onChange={(e) => setCredentials({...credentials, password: e.target.value})}
                     className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter your password"
+                    placeholder={t('login.passwordPlaceholder')}
                 />
                 <button
                     type="button"
@@ -105,13 +115,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading, onSwit
             </div>
 
             <p className="text-center text-sm text-gray-600">
-              Don’t have an account?{" "}
+              {t('login.noAccount')}{" "}
               <button
                   type="button"
                   onClick={onSwitchToSignup}
                   className="text-blue-600 hover:text-blue-800 font-medium"
               >
-                Sign up
+                {t('login.signUp')}
               </button>
             </p>
 
@@ -123,7 +133,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading, onSwit
               {isLoading ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"/>
               ) : (
-                  'Sign In'
+                  t('login.signIn')
               )}
             </button>
           </form>
