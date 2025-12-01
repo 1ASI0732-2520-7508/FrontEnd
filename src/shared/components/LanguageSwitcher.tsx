@@ -26,23 +26,21 @@ export const LanguageSwitcher = () => {
             <Globe className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             <button
                 onClick={() => changeLanguage("en")}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
-                    currentLang === "en" 
-                        ? "bg-blue-600 text-white shadow-sm" 
-                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
+                className={`px-2 py-1 rounded transition-colors duration-200 ${
+                    i18n.language === "en" 
+                        ? "bg-blue-500 text-white dark:bg-blue-600" 
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                 }`}
-                title="English"
             >
                 EN
             </button>
             <button
                 onClick={() => changeLanguage("es")}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
-                    currentLang === "es" 
-                        ? "bg-blue-600 text-white shadow-sm" 
-                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
+                className={`px-2 py-1 rounded transition-colors duration-200 ${
+                    i18n.language === "es" 
+                        ? "bg-blue-500 text-white dark:bg-blue-600" 
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                 }`}
-                title="Español"
             >
                 ES
             </button>
