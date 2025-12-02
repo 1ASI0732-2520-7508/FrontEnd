@@ -33,12 +33,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading, onSwit
     }
 
     // Skip OTP if VITE_SKIP_OTP is enabled (development only)
-    const skipOtp = import.meta.env.VITE_SKIP_OTP === 'true';
-    if (skipOtp) {
-      const result = await onLogin(credentials);
-      if(!result.success && result.error) setError(result.error);
-      return;
-    }
+    //const skipOtp = import.meta.env.VITE_SKIP_OTP === 'true';
+    //if (skipOtp) {
+    //  const result = await onLogin(credentials);
+    //  if(!result.success && result.error) setError(result.error);
+    //  return;
+    //}
 
 
     setNeedsEmailOtp(credentials.username);
